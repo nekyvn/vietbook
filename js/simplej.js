@@ -568,12 +568,14 @@ function uploadFile(fileURL) {
 
     var params = {};
     params.value1 = "UploadIMG";
+    params.user1 = localStorage.iduser;
+    params.user2 = localStorage.username;
     params.value2 = "param";
 
     options.params = params;
 
     var ft = new FileTransfer();
-    ft.upload(fileURL, encodeURI(baseurl+"upload_4.php"), win, fail, options);
+    ft.upload(fileURL, encodeURI(baseurl+"upload_img_chat.php"), win, fail, options);
   },false);
 }
 
@@ -660,8 +662,10 @@ function getphotochat(iduser,username,message,text,UrlAvatar)
     function(results) {
       for (var i = 0; i < results.length; i++) {
         localStorage.Img_Save += results[i]+"||";
-        text.innerHTML += '<li class="self"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"><img src="'+ results[i] +'" /><br/> </div> </li>';
-        
+        text.innerHTML += '<li class="self"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"><img src="'+ results[i] +'" style="width: 200px; height: auto;" /><br/> </div> </li>';
+        var newname = md5(new Date() + Math.random()) + "_" + results[i].substr(results[i].lastIndexOf('/') + 1);
+        localStorage.newname = newname;
+        uploadFile(results[i]);
       }
     }, function (error) {
       console.log('Error: ' + error);

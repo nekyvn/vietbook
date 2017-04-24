@@ -157,6 +157,7 @@ localStorage.page = "follow.html";
       $("#trangcanhan").append('<div class="col-xs-6" style="padding:5px 3px 5px 3px; margin:2px;width:100%;" ><div class="khungvien"> <img src="'+urlAvatar+avatar+'" style="width:100%;border-radius:50%;padding: 5px;" /></div> <div style="width:68%;float:left;margin-left:20px;margin-top:6px;font-size:15px;" id="hoten_'+id+'"> <span style="color:rgb(0, 89, 194)">'+hoten+'</span><p id="last_msg'+id+'" class="last-msg"></p></div><div style="width:5%;float:left;background:#fff;border-radius:50%;color:#fff;padding:2px;font-size:11px;text-align:center;margin-top:10px" id="count_'+id+'"></div><div style="clear:both"></div></div>');
       $("#hoten_"+id).click(function(){
         localStorage.username = username;
+        localStorage.username_avatar = avatar;
         window.location.href="chatting.html";
       });
 
