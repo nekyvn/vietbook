@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <link rel="stylesheet" href="css/base.css">
+    <title>Gian hàng online</title>
+</head>
+<body>
+  <nav class="fixed-nav-bar-user" style="background:#fff;">
+    <div  style="width:10%;float:left;padding:3px">
+      <a href="post.html" id="post"><img src="img/icn_tp_Camera.png" class="img-responsive" /></a>
+    </div>
+    <div style="width:77%;float:left;padding:0px 0px 10px 0px">
+      <center><img src="img/vbook.png" class="img-responsive" style="max-height:30px" /></center>
+    </div>
+    <div style="width:10%;float:right;padding:3px">
+      <a href="timkiem.html" id="txtTim">
+        <img src="img/find.png" class="img-responsive"  />
+      </a>
+    </div>
+  </nav>
+
+  <nav class="fixed-nav-bar" id="menunav"  style="background:#fff">
+    <div class="menu" >
+
+        <div class="menu_bootstrap">
+          <a href="profile.html" id="profiles"><img src="img/user.png" class="img-responsive" /></a>
+        </div>
+        <div class="menu_bootstrap">
+          <a href="home.html" id="home">
+            <img src="img/home.png" class="img-responsive"  />
+          </a>
+        </div>
+        <div class="menu_bootstrap" >
+          <a href="follow.html" id="user"><img src="img/icn_btBar_13.png" class="img-responsive"  /></a>
+        </div>
+        <!-- <div class="menu_bootstrap" style="width:12%;background-color:rgb(0, 0, 0);border-radius:50%">
+          <center><a href="post.html" id="user"><img src="img/add.png" class="img-responsive"  /></a></center>
+        </div> -->
+        <div class="menu_bootstrap">
+          <a href="chat.html">
+            <img src="img/chat.png" class="img-responsive" style="position: relative; " />
+
+          </a>
+          <div id="badge_message">
+
+          </div>
+        </div>
+        <div class="menu_bootstrap" id="chuong2">
+          <div style="position:relative" id="chuong">
+            <img src="img/chuong.png" class="img-responsive"  />
+            <div id="note">
+
+            </div>
+          </div>
+        </div>
+        <!-- <div class="menu_bootstrap">
+          <a href="timkiem.html" id="txtTim">
+            <img src="img/find.png" class="img-responsive"  />
+          </a>
+        </div> -->
+        <!-- <div class="menu_bootstrap2">
+          <div class="fake-input">
+            <input type="text" class="form-control" id="txtTim" style="height:auto;min-height:25px" />
+            <span class="glyphicon glyphicon-search tim" aria-hidden="true"></span>
+          </div>
+        </div> -->
+
+    </div>
+</nav>
+  <!-- Show danh mục-->
+  <div class="se-pre-con"></div>
+  <div class="cate" id="cate">
+    <div class="trangcanhan" id="trangcanhan" style="margin-top:45px;margin-bottom:40px">
+
+    </div>
+  <span id="test" style="color:#fff"></span>
+<script src="cordova.js" type="text/javascript"></script>
+<script type="text/javascript">
+localStorage.page = "note.html";
+function onBackKeyDown() {
+        window.location.href="home.html";
+      }
+  $(document).ready(function()
+  {
+    update_note();
+    function run()
+    {
+      ShowMessage();
+      setTimeout(function(){ run();  }, 5000);
+    }
+  run();
+  ChangeIcon("chuong","chuong");
+  var IdUser=localStorage.iduser;
+  var root = baseurl+"";
+  var url=root+"show_note_detail.php?id="+IdUser;
+  var urlCover = root+"data/img/cover/";
+  var urlAvatar = root+"data/img/avatar/";
+  $.getJSON(url,function(result){
+    console.log(result);
+    $.each(result, function(i, field){
+    var id=field.id;
+    var username=field.username;
+    var avatar=field.avatar;
+    var cover=field.cover;
+    var hoten=field.hoten;
+    var openid=field.openid;
+    var type = field.type;
+    var trangthai = "";
+    switch (type) {
+      case "follow":
+        trangthai = "theo dõi bạn"
+        break;
+      case "like":
+        trangthai = "thích bài đăng của bạn"
+        break;
+      case "comment":
+        trangthai = "bình luận bài đăng của bạn"
+        break;
+      case "reply":
+        trangthai = "trả lời bình luận của bạn"
+        break;
+      default:
+    }
+    var Time=field.Time;
+    $("#trangcanhan").append('<div style="width:13%;float:left;padding-bottom:10px"> <img src="'+urlAvatar+avatar+'" class="img-responsive" /> </div> <div style="width:85%;float:left;margin-left:5px" id="hoten_'+id+'"> <span style="color:rgb(0, 89, 194);font-size:12px">'+hoten+" đã "+trangthai+'</span><br /> <span style="color:rgb(180, 180, 180);font-size:10px">'+CachDay(Time)+'</span> </div><div style="clear:both"></div>');
+    switch (type) {
+      case "follow":
+        GotoTarget("user.html",username,"hoten_"+id)
+        break;
+      case "like":
+        GotoArticle("article.html",openid,IdUser,"hoten_"+id)
+        break;
+      case "comment":
+        GotoArticle("article.html",openid,IdUser,"hoten_"+id)
+        break;
+      case "reply":
+        GotoArticle("reply.html",openid,IdUser,"hoten_"+id)
+        break;
+      default:
+    }
+    });
+  });
+  $(".se-pre-con").fadeOut("slow");
+  });
+  scroll_hide_nav();
+
+
+
+</script>
+<script type="text/javascript">
+//Show số lượng thông báo
+var username = localStorage.iduser;
+ShowNote(username,"note","show_note.php");
+//Hàm update note và chuyển đến trang chi tiết note
+var page="note.html";
+var control="chuong";
+var action="update_note.php";
+//Idea: Kiểm tra theo post localStorage.sonote nếu > 0 mới update
+GotoNote(page,username,control,action);
+GotoPage4("chat.html","badge_message");
+GotoPage2_focus("timkiem.html","txtTim");
+</script>
+</body>
+</html>

@@ -1,0 +1,346 @@
+/* WEB FONT */
+
+
+
+
+/* LAYOUT */
+.fixed-nav-bar {
+  box-shadow: 0px 0px 3px 0px rgba(50, 50, 50, 0.6);
+}
+
+.content {
+  position: relative;
+  background: #464646 url(59H-from-gratisography.jpg) no-repeat center center fixed;
+  background-size: cover;
+ }
+.description, .some-related-articles {
+  width: 90%;
+  max-width: 960px;
+  margin: 0 auto;
+}
+.description {
+  padding-top: 100px;
+  min-height: 250px;
+  text-align: center;
+}
+.some-related-articles {
+  color: #747474;
+}
+.some-related-articles h1 {
+  color: #384e56;
+  margin-top: 60px;
+  text-transform: uppercase;
+}
+.some-related-articles h2 a:link, .some-related-articles h2 a:visited  {
+  color: #464646;
+  transition: color 0.1s ease;
+}
+.some-related-articles h2 a:hover {
+  color: #000000;
+  transition: color 0.3s ease;
+}
+/* SPECIAL */
+.summary {
+  color: #d9dee2;
+  margin-top: 40px;
+  margin-bottom: 60px;
+}
+.button, .button:visited, .button-dark {
+  display: inline-block;
+  max-width: 200px;
+  margin: 50px 10px 30px 10px;
+  padding: 10px;
+  font-family: "Signika", sans-serif;
+  color: #ffffff;
+  background-color: transparent;
+  border: 2px solid #ffffff;
+  border-radius: 3px;
+  text-transform: capitalize;
+  text-align: center;
+  transition: all 0.1s ease;
+}
+.button-dark, .button-dark:visited {
+  margin: 20px 10px 30px 0;
+  color: #464646;
+  border-color: #464646;
+
+}
+.button:hover, .button-dark:hover {
+  transition: all 0.3s ease;
+}
+.button:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+.button-dark:hover {
+  color: #ffffff;
+  background-color: rgba(70, 70, 70, 0.9);
+}
+/*Image in row*/
+.col-sm-5cols{
+  position: relative;
+min-height: 1px;
+padding-right: 1px;
+padding-left: 1px;
+margin-top: -3px;
+}
+.thumbnail{
+  height: 120px;
+}
+
+@media (min-width: 768px) {
+.col-sm-5cols {
+        width: 20%;
+        float: left;
+    }
+}
+
+.thumbnail {
+  height: 123px;
+  position: relative;
+  overflow: hidden;
+
+}
+.thumbnail img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  height: 100%;
+  width: auto;
+  -webkit-transform: translate(-50%,-50%);
+      -ms-transform: translate(-50%,-50%);
+          transform: translate(-50%,-50%);
+}
+.thumbnail img.portrait {
+  width: 100%;
+  height: auto;
+}
+
+.fake-input { position: relative; }
+.fake-input input { display:block; box-sizing: border-box }
+.fake-input .tim { position: absolute; top: 6px; right: 5px; font-size: 20px;opacity: 0.5; color: #dd443e;}
+
+.scrollToTop{
+	width:30px;
+	height:30px;
+	padding:10px;
+	text-align:center;
+	background: whiteSmoke;
+	font-weight: bold;
+	color: #444;
+	text-decoration: none;
+	position:fixed;
+	bottom: 50%;
+	right:10px;
+	display:none;
+	background: url('../img/grid.png');
+}
+.scrollToTop:hover{
+	text-decoration:none;
+}
+
+.scrollToTop2{
+	width:30px;
+	height:30px;
+	padding:10px;
+	text-align:center;
+	background: whiteSmoke;
+	font-weight: bold;
+	color: #444;
+	text-decoration: none;
+	position:fixed;
+	bottom: 50%;
+	right:10px;
+	display:none;
+	background: url('../img/table.png');
+}
+.scrollToTop2:hover{
+	text-decoration:none;
+}
+/*.thunho
+{
+    width: 120px;
+    height: 120px;
+    overflow: hidden;
+    margin: 10px;
+    position: relative;
+}
+.thunho img {
+    position:absolute;
+    left: -100%;
+    right: -100%;
+    top: -100%;
+    bottom: -100%;
+    margin: auto;
+    min-height: 100%;
+    min-width: 100%;
+}*/
+.thunho{
+    width:100%;
+    padding-bottom:100%;
+    margin:2px auto;
+    overflow:hidden;
+    position:relative;
+}
+img {
+    image-orientation: from-image;
+}
+.thunho img {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 100%;
+  height: auto;
+  min-width: 100%;
+  -webkit-transform: translate(-50%,-50%);
+  -ms-transform: translate(-50%,-50%);
+  transform: translate(-50%,-50%);
+  animation: fadein 2s;
+backface-visibility: hidden;
+}
+.menu {
+    margin-right: auto;
+    margin-left: auto;
+}
+.menu_bootstrap{
+  width: 13.66666667%;
+position: relative;
+min-height: 1px;
+padding: 13.5px;
+float: left;
+margin-right: 10px;
+margin-left: 10px;
+}
+.menu_bootstrap3{
+  width: 10%;
+  position: relative;
+  min-height: 1px;
+  padding: 5px;
+  float: left;
+}
+.menu_bootstrap3 img{
+  max-height: 50px;
+}
+.menu_bootstrap img{
+  max-height: 40px;
+}
+.menu_bootstrap2{
+  width: 36.66666667%;
+  position: relative;
+  min-height: 1px;
+  padding: 12px;
+  float: left;
+}
+.menu_bootstrap5{
+  width: 38.66666667%;
+  position: relative;
+  min-height: 1px;
+  padding: 12px;
+  float: left;
+}
+.menu_bootstrap2 img{
+  max-height: 35px;
+}
+.menu_bootstrap4{
+  width: 45%;
+  position: relative;
+  min-height: 1px;
+  float: left;
+}
+/* Snackbar */
+/* The snackbar - position it at the bottom and in the middle of the screen */
+#snackbar {
+        visibility: hidden;
+    min-width: 25px;
+    background-color: #fff;
+    color: #fff;
+    text-align: center;
+    border-radius: 50%;
+    padding: 5px;
+    position: fixed;
+    z-index: 1;
+    bottom: 30px;
+    height: 37px;
+    top: 85%;
+    border-radius: 10px;
+    opacity: 0.8;
+    right: 40%;
+    padding: 10px;
+}
+
+/* Show the snackbar when clicking on a button (class added with JavaScript) */
+#snackbar.show {
+    visibility: visible; /* Show the snackbar */
+
+/* Add animation: Take 0.5 seconds to fade in and out the snackbar.
+However, delay the fade out process for 2.5 seconds */
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+/* Animations to fade the snackbar in and out */
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}
+
+#sanpham2 img {
+
+    animation: fadein 2s;
+    -moz-animation: fadein 2s; /* Firefox */
+    -webkit-animation: fadein 2s; /* Safari and Chrome */
+    -o-animation: fadein 2s; /* Opera */
+}
+@keyframes fadein {
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-moz-keyframes fadein { /* Firefox */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-webkit-keyframes fadein { /* Safari and Chrome */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity:1;
+    }
+}
+@-o-keyframes fadein { /* Opera */
+    from {
+        opacity:0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+.front img  {
+opacity:0;
+-moz-transition: opacity 2s; /* Firefox 4 */
+-webkit-transition: opacity 2s; /* Safari and Chrome */
+-o-transition: opacity 2s;
+transition: opacity 2s;
+}

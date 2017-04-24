@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <link rel="stylesheet" href="css/base.css">
+    <title>Gian hàng online</title>
+    <script>
+    $(document).ready(function(){
+      $('#back2').click(function(){
+          window.location.href=localStorage.page;
+      });
+    });
+    function onBackKeyDown() {
+        window.location.href="home.html";
+      }
+    </script>
+</head>
+<body>
+  <nav class="fixed-nav-bar-user" style="background:#fff;">
+    <div class="menu" >
+
+      <!-- <div class="menu_bootstrap3" id="back2" style="margin-right:20px">
+        <img src="img/back.png"  class="img-responsive" />
+      </div> -->
+
+        <div class="menu_bootstrap2" style="width:100%">
+          <div class="fake-input">
+            <input type="text" class="form-control" id="Tim" style="height:auto;min-height:25px" />
+            <span class="glyphicon glyphicon-search tim" aria-hidden="true"></span>
+          </div>
+        </div>
+
+    </div>
+  </nav>
+  <nav class="fixed-nav-bar" style="background:#fff">
+
+
+
+</nav>
+  <!-- Show danh mục-->
+  <div class="se-pre-con"></div>
+  <div class="cate" id="cate" style="margin-top:10px" >
+    <div class="trangcanhan" id="trangcanhan1">
+      <div id="shop" class="tab-content current" style="background:#fff;margin-top: 45px">
+
+    	</div>
+      <!-- <ul class="tabs">
+    		<li class="tab-link current" data-tab="shop" id="shop_tab" style="border:1px solid rgb(212, 212, 212)">SHOP</li>
+    		<li class="tab-link" data-tab="sanpham" id="sanpham_tab" style="border:1px solid rgb(212, 212, 212)">SẢN PHẨM</li>
+    	</ul>
+      <hr style="margin:10px 0px 0px 0px" />
+      <div id="shop" class="tab-content current" style="background:#fff">
+
+    	</div>
+    	<div id="sanpham" class="tab-content" style="background:#fff">
+        <center>
+    	   <div style="width:100%" id="sanpham2">
+
+         </div>
+       </center>
+    	</div> -->
+
+    </div>
+  <span id="test" style="color:#fff"></span>
+<script src="cordova.js" type="text/javascript"></script>
+<script type="text/javascript">
+
+  window.onload = function() {
+
+  document.getElementById("Tim").focus();
+  localStorage.type = "shop";
+  };
+  //Xử lý tab
+  $(document).ready(function(){
+
+    $(".se-pre-con").fadeOut("slow");
+    $('ul.tabs li').click(function(){
+    var tab_id = $(this).attr('data-tab');
+    $('ul.tabs li').removeClass('current');
+    $('.tab-content').removeClass('current');
+    $(this).addClass('current');
+    $("#"+tab_id).addClass('current');
+    })
+  })
+  //User gõ chữ tìm kiếm
+  $(document).ready(function(){
+    loaduser();
+    $("#Tim").keyup(function(){
+      var type = localStorage.type;
+      if(type=="shop")
+      {
+        loaduser();
+      }
+      else
+      {
+        loadsanpham();
+      }
+    });
+  });
+
+  localStorage.type = "shop";
+  // $(document).ready(function(){
+  //   $("#shop_tab").click(function(){
+  //     localStorage.type = "shop";
+  //     document.getElementById("txtTim").focus();
+  //     loaduser();
+  //   });
+  // });
+  // $(document).ready(function(){
+  //   $("#sanpham_tab").click(function(){
+  //     localStorage.type = "sanpham";
+  //     document.getElementById("txtTim").focus();
+  //     loadsanpham();
+  //   });
+  // });
+
+
+
+  //Load user
+  function loaduser() {
+    $("#shop").html("");
+    var Keyword = $("#Tim").val();
+    var root = baseurl+"";
+    var url=root+"show_findshop.php?id="+Keyword;
+    var urlCover = root+"data/img/cover/";
+    var urlAvatar = root+"data/img/avatar/";
+    $.getJSON(url,function(result){
+      console.log(result);
+      $.each(result, function(i, field){
+      var id=field.id;
+      var username=field.username;
+      var avatar=field.avatar;
+      var cover=field.cover;
+      var hoten=field.hoten;
+      var diachi=field.diachi;
+      console.log(diachi);
+      if(diachi=="" || diachi==null)
+      {
+        diachi = "Chưa cập nhật";
+      }
+      else
+      {
+        var countt = diachi.length;
+        if(countt>=30) diachi = diachi.substring(0,20) + " ...";
+      }
+      var Time=field.Time;
+      $("#shop").append('<div class="col-xs-6" style="padding:5px 3px 5px 3px; margin:2px;width:100%;" id="user_'+id+'" ><div class="khungvien" > <img src="'+urlAvatar+avatar+'" style="width:50px;border-radius:50%;height: 50px;padding: 5px;" /></div> <div style="width:68%;float:left;margin-left:20px;margin-top:6px;font-size:15px;" id="hoten_'+id+'"> <span style="color:rgb(0, 89, 194)">'+hoten+'</span><br/><span style="color:#b1b1b1;font-size:13px"><i>Đến từ: '+diachi+'</i></span></div><div style="width:10%;float:left;" id="follow_'+id+'"> </div><div style="clear:both"></div></div>');
+      // CheckFollow(username,id);
+      // Following(username,id);
+      // GotoUser("user.html",username,id,"hoten_");
+      GotoTarget("user.html",username,"user_"+id);
+      });
+    });
+  }
+  //Load sản phẩm
+  //Load user
+  function loadsanpham() {
+    $("#sanpham2").html("");
+    var Keyword = $("#txtTim").val();
+    var root = baseurl+"";
+    var url=root+"show_findsanpham.php?id="+Keyword;
+    var urlIMG = root+"data/img/";
+    var dem=0;
+    $.getJSON(url,function(result){
+      console.log(result);
+      $.each(result, function(i, field){
+      dem++;
+      var user = localStorage.iduser;
+      var id=field.id;
+      var iduser=field.iduser;
+      var img=field.img;
+      var noidung=field.noidung;
+      var Time=field.Time;
+      var LastImg = img.split('||');
+      $("#sanpham2").append('<div class="col-xs-4 col-sm-5cols" id="sanphamcon_'+id+'"> <div class="thumbnail"> <img src="'+urlIMG+LastImg[0]+'" class="portrait"> </div> </div>');
+      if(dem%3==0)
+      {
+        $("#sanpham2").append('<div style="clear:both"></div>');
+      }
+      //$("#sanpham2").append(url);
+      GotoArticle("article.html",id,"sanphamcon_"+id);
+      });
+    });
+  }
+
+</script>
+<script type="text/javascript">
+
+//Show số lượng thông báo
+var username = localStorage.iduser;
+ShowNote(username,"note","show_note.php");
+//Hàm update note và chuyển đến trang chi tiết note
+var page="note.html";
+var control="chuong";
+var action="update_note.php";
+//Idea: Kiểm tra theo post localStorage.sonote nếu > 0 mới update
+GotoNote(page,username,control,action);
+</script>
+</body>
+</html>

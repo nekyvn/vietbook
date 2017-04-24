@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <title>Gian hàng online</title>
+    <script>
+    var check = localStorage.getItem('iduser');
+    if(check!== null)
+    {
+      window.location.href="home.html";
+    }
+    
+    $(document).ready(function(){
+        //Năm tự động điền vào select
+        var seYear = $('#year');
+        var date = new Date();
+        var cur = date.getFullYear();
+
+        seYear.append('<option>Năm</option>');
+        for (i = cur; i >= 1900; i--) {
+          seYear.append('<option value="'+i+'">'+i+'</option>');
+        };
+
+            //Tháng tự động điền vào select
+            var seMonth = $('#month');
+            var date = new Date();
+
+            var month=new Array();
+            month[1]="Tháng 1";
+            month[2]="Tháng 2";
+            month[3]="Tháng 3";
+            month[4]="Tháng 4";
+            month[5]="Tháng 5";
+            month[6]="Tháng 6";
+            month[7]="Tháng 7";
+            month[8]="Tháng 8";
+            month[9]="Tháng 9";
+            month[10]="Tháng 10";
+            month[11]="Tháng 11";
+            month[12]="Tháng 12";
+
+            seMonth.append('<option value="">Tháng</option>');
+            for (i = 12; i > 0; i--) {
+              seMonth.append('<option value="'+i+'">'+month[i]+'</option>');
+            };
+
+            //Ngày tự động điền vào select
+            function dayList(month,year) {
+              var day = new Date(year, month, 0);
+              return day.getDate();
+            }
+
+            $('#year, #month').change(function(){
+                //Đoạn code lấy id không viết bằng jQuery để phù hợp với đoạn code bên dưới
+                var y = document.getElementById('year');
+                var m = document.getElementById('month');
+                var d = document.getElementById('day');
+
+                var year = y.options[y.selectedIndex].value;
+                var month = m.options[m.selectedIndex].value;
+                var day = d.options[d.selectedIndex].value;
+                if (day == ' ') {
+                  var days = (year == ' ' || month == ' ')? 31 : dayList(month,year);
+                  d.options.length = 0;
+                  d.options[d.options.length] = new Option('Ngày',' ');
+                  for (var i = 1; i <= days; i++)
+                    d.options[d.options.length] = new Option(i,i);
+                }
+              });
+    });
+    </script>
+
+
+</head>
+<body style="background:#fdfdfd;color:#0b98df">
+<span id="test" style="color:#fff"></span>
+  <!-- Login form -->
+
+  <div class="col-md-12" style="margin-top:60px">
+    <div class="col-md-6">
+    </div>
+    <div class="col-md-2">
+        <center><img src="img/vbook.png" class="img-responsive" style="width:50%;height:50%" /></center>
+    </div>
+    <div class="col-md-6">
+    </div>
+  </div> <br />
+  <div class="col-md-12 loginform" id="loginform" style="margin-top:60px">
+    <input id="username" type="txtUsername" class="form-control" placeholder="Email ..." style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" /> <br/>
+  	<input id="password" type="password" class="form-control"  placeholder="Mật khẩu ..." style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" /> <br />
+  	<button id="btnLogin" class="form-control" style="background:#8bd0ef;font-weight:50;color:#0b98df;border-radius:0; border: 1px solid #8bd0ef;font-size:16px;font-family:Tahoma" >Đăng nhập</button> <br/>
+
+    <center><a href="quenmatkhau.html" style="color:#0b98df">Quên mật khẩu?</a></center> <br/><br/>
+    <center><div id="dangky" style="margin-top:30px">Bạn chưa có tài khoản? Đăng ký ngay!</div></center>
+  </div>
+  <div class="col-md-12 loginform" id="dangkyform">
+    <input id="log_fullname" type="text" class="form-control" placeholder="Họ tên" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" /> <br/>
+
+
+    Ngày sinh:<br/>
+    <center>
+    <select name="year" id="year" size="1" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px"></select>
+    <select name="month" id="month" size="1" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px"></select>
+    <select name="day" id="day" size="1" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px">
+      <option value=" " selected="selected">Ngày</option>
+    </select>
+    </center>
+    <br/>
+    Giới tính:<br/>
+    <center>
+      <form id="myform">
+        <input id="log_gioitinh" type="radio" name="rdGioitinh" value="female" checked=""> Nữ  &nbsp;&nbsp;<input id="log_gioitinh" value="male" name="rdGioitinh" type="radio" > Nam  <br/><br/>
+      </form>
+    </center>
+    <input id="log_username" type="txtUsername" class="form-control" placeholder="Nhập email" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" /> <br/>
+  	<input id="log_password" type="password" class="form-control"  placeholder="Mật khẩu" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" /> <br />
+  	<input id="log_password2" type="password" class="form-control"  placeholder="Xác nhận Mật khẩu" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" /> <br />
+  	<button id="btnDangky" class="form-control" style="background:#8bd0ef;font-weight:50;color:#0b98df;border-radius:0; border: 1px solid #8bd0ef;font-size:16px;font-family:Tahoma" >Đăng ký</button> <br/>
+    <center><div id="Back" style="color:#0b98df">Đăng nhập</div></center>
+  </div>
+  <!-- End login form -->
+  <!-- Script login -->
+  <script type="text/javascript">
+
+  $(document).ready(function(){
+  $('#dangkyform').hide();
+  });
+
+  $("#btnLogin").click(function(){
+  var username=$("#username").val();
+  var password=$("#password").val();
+  var dataString="txtUsername="+username+"&txtPassword="+password+"&login=";
+  if($.trim(username).length>0 & $.trim(password).length>0)
+  {
+    $.ajax({
+    type: "POST",
+    url: baseurl+"login.php",
+    data: dataString,
+    crossDomain: true,
+    cache: false,
+    beforeSend: function(){ $("#btnLogin").html('Đang kết nối...');},
+    success: function(data)
+    {
+        if(data=="ok")
+        {
+          localStorage.login="true";
+          localStorage.iduser=username;
+          SetCookie(username);
+
+        }
+        else
+        {
+          $("#btnLogin").html('Đăng nhập');
+          alert("Thông tin không chính xác");;
+        }
+        //$("#test").html(data);
+    }
+    });
+  }
+  else{
+    alert("Bạn chưa nhập thông tin");
+  }
+  });
+  function SetCookie(username){
+    var root = baseurl+"";
+    var url=root+"setcookie.php?username="+username;
+    var urlCover = root+"data/img/cover/";
+    var urlAvatar = root+"data/img/avatar/";
+    $.getJSON(url,function(result){
+      console.log(result);
+      $.each(result, function(i, field){
+
+      var id=field.id;
+      var username=field.username;
+      var avatar=field.avatar;
+      var cover=field.cover;
+      var hoten=field.hoten;
+      var Time=field.Time;
+
+      localStorage.avatar =avatar;
+      localStorage.cover = urlCover + cover;
+      localStorage.hoten = hoten;
+      localStorage.id = id;
+        window.location.href = "home.html";
+      });
+    });
+  };
+  </script>
+  <script type="text/javascript">
+  $("#dangky").click(function(){
+    $("#dangkyform").show();
+    $("#loginform").hide();
+    $("#textdn").text("Đăng ký");
+  });
+  $("#Back").click(function(){
+    $("#dangkyform").hide();
+    $("#loginform").show();
+    $("#textdn").text("Đăng nhập");
+  });
+  //Xử lý đăng ký
+  $("#btnDangky").click(function(){
+    var Fullname = $("#log_fullname").val();
+    var Username = $("#log_username").val();
+    var Password = $("#log_password").val();
+    var Password2 = $("#log_password2").val();
+
+    var Email = $("#log_username").val();
+    var day = $("#day").val();
+    var month = $("#month").val();
+    var year = $("#year").val();
+    var Gioitinh = $("#myform input[type='radio']:checked").val();
+    var namsinh = year+"-"+month+"-"+day;
+    var dataString="Fullname="+Fullname+"&Email="+Email+"&Namsinh="+namsinh+"&Gioitinh="+Gioitinh+"&Username="+Username+"&Password="+Password+"&Regis=";
+    var emailform = "^[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+@[-0-9A-Za-z!#$%&'*+/=?^_`{|}~.]+"
+    if($.trim(Fullname).length>0 & $.trim(Username).length>0 & $.trim(Password).length>0 & $.trim(Password2).length>0 & $.trim(Email).length>0 & $.trim(day).length>0 & $.trim(month).length>0 & $.trim(year).length>0 )
+    {
+      if(Username.match(emailform))
+      {
+        if($.trim(Password)==$.trim(Password2))
+        {
+          $.ajax({
+            type: "POST",
+            url: baseurl+"register.php",
+            data: dataString,
+            crossDomain: true,
+            cache: false,
+            beforeSend: function(){ $("#btnDangky").html('Đang xử lý ...');},
+            success: function(data)
+            {
+                if(data=="ok")
+                {
+                  alert("Đăng ký thành công, bạn có thể đăng nhập!");
+                  $("#dangkyform").hide();
+                  $("#loginform").show();
+                  $("#textdn").text("Đăng nhập");
+                  $("#btnDangky").text("Đăng ký");
+                }
+                else if(data="dup")
+                {
+                  $("#btnDangky").text("Đăng ký");
+                  alert("Email hoặc số điện thoại này đã tồn tại, hãy nhập thông tin khác!");
+                }
+                else
+                {
+                  alert("Đăng ký thất bại, hãy kiểm tra lại thông tin!");
+                }
+                //$("#test").html(data);
+            }
+          });
+        }
+        else
+        {
+          alert("Mật khẩu xác nhận không trùng khớp!");
+        }
+      }
+      else
+      {
+        alert("Email không đúng định dạng");
+        $("#log_username").focus();
+      }
+    }
+    else
+    {
+        alert("Bạn chưa nhập đầy đủ thông tin");
+    }
+  });
+  </script>
+	<script src="cordova.js" type="text/javascript"></script>
+  <script src="phonegap.js"></script>
+  <script type="text/javascript">
+    clearBadge();
+            // clearBadge = function () {
+            //     cordova.plugins.notification.badge.clear(showToast);
+            // };
+            //
+            // setBadge = function (rand) {
+            //     var number = rand ? Math.round(Math.random()*100) : 10;
+            //     cordova.plugins.notification.badge.set(number, showToast);
+            // };
+            //
+            // getBadge = function () {
+            //     cordova.plugins.notification.badge.get(showToast);
+            // };
+            //
+            // increaseBadge = function () {
+            //     cordova.plugins.notification.badge.increase(1, showToast);
+            // };
+            //
+            // decreaseBadge = function () {
+            //     cordova.plugins.notification.badge.decrease(1, showToast);
+            // };
+            //
+            // hasPermission = function () {
+            //     cordova.plugins.notification.badge.hasPermission(showToast);
+            // };
+            //
+            // registerPermission = function () {
+            //     cordova.plugins.notification.badge.registerPermission(showToast);
+            // };
+            //
+            // switchAutoClear = function () {
+            //     cordova.plugins.notification.badge.configure({
+            //         autoClear: !cordova.plugins.notification.badge._config.autoClear
+            //     });
+            //
+            //     showToast('Set autoClear to \n' + cordova.plugins.notification.badge._config.autoClear);
+            // };
+            //
+            // changeTitle = function () {
+            //     var title = cordova.plugins.notification.badge._config.title + '_new';
+            //
+            //     cordova.plugins.notification.badge.configure({
+            //         title: title
+            //     });
+            //
+            //     showToast('Set title to \n"' + title + '"');
+            // };
+        </script>
+</body>
+
+</html>

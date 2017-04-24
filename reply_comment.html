@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <script type="text/javascript" src="js/emoticon.js"></script>
+    <title>Vietbook</title>
+    <style media="screen">
+    [contenteditable=true]:empty:before{
+      content: attr(placeholder);
+      display: block; /* For Firefox */
+      }
+    </style>
+</head>
+<script type="text/javascript">
+    var idcomment = localStorage.idcomment;
+    var IdUser=localStorage.iduser;
+    var limit = 0;
+    var count_comment = 0;
+    function onBackKeyDown() {
+      window.location.href="articleonly.html";
+    }
+    $(document).ready(function(){
+        function run()
+          {
+            ShowMessage();
+            setTimeout(function(){ run();  }, 5000);
+          }
+        run();
+        function updateChildComment(id, noidung){
+            $.ajax({
+                type: "POST",
+                url: baseurl + "child_comment.php?act=edit",
+                data: {id: id, noidung: noidung},
+                success: function(){
+                    window.location.href = "reply_comment.html";
+                },
+            });
+        }
+        function deleteChildComment(id){
+            $.ajax({
+                type: "POST",
+                url: baseurl + "child_comment.php?act=delete",
+                data: {id: id},
+                success: function(){
+                    window.location.href = "reply_comment.html";
+                }
+            });
+        }
+        function getParentComment(){
+            var url = baseurl + "child_comment.php?act=getParent";
+            var data = {id: idcomment};
+            $.getJSON(url, data, function(result){
+                $('#parent_comment_avatar').attr('src', baseurl+'data/img/avatar/'+result[0].avatar);
+                $('#parent_comment_content').html(result[0].noidung);
+                $('#parent_comment_author').html(result[0].hoten);
+                $('#parent_comment_time').html(result[0].Time);
+            });
+        }
+        function getChildComment(offset){
+            if(offset === undefined){
+                offset = 0;
+            }
+            var url = baseurl + "child_comment.php?act=getList";
+            var data = {id_parent: idcomment, offset: offset};
+            console.log(data);
+            $.getJSON(url, data, function(result){
+                $.each(result, function(j, row){
+                    var editDiv = '';
+                    var modal_pop_up ='';
+                    if(row.username == localStorage.iduser){
+                        
+                        modal_popup = '<div id="pop_comment_'+row.id+'" class="modal fade" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Thao tác</h4> </div> <div class="modal-body"> <p id="sua_comment_'+row.id+'"><span class="glyphicon glyphicon-pencil"></span> Sửa bình luận.</p> <p id="xoa_comment_'+row.id+'"><span class="glyphicon glyphicon-remove"></span> Xóa bình luận.</p> <p id="input_edit_'+row.id+'"> <textarea id="txtNoidung_'+row.id+'" style="width:90%;float:left;border:none" placeholder="Nhập nội dung ..."></textarea> <span id="btnSendEdit_'+row.id+'" class="glyphicon glyphicon-ok" style="width:10%;float:right;font-size: 20px;text-align:right;padding-top:25px"></span> </p> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button> </div> </div> </div></div>';
+                        editDiv = '<div style="width:10%;float:right;padding-left:10px"><span class="glyphicon glyphicon-pencil" id="edit_comment_'+row.id+'"></span></div>';
+                    }
+                    var newDiv = $('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px;width:100%;clear:both;overflow:hidden"><div style="width:10%;float:left"><img src="' + baseurl+ 'data/img/avatar/' +row.avatar + '" class="img-responsive"></div><div style="width:75%;float:left;padding-left:10px"><div>'+row.noidung+'</div><span style="font:12px">Bởi </span><span style="color:rgb(90, 81, 204);font-size:12px">'+ row.hoten +' </span><span style="color:rgb(168, 37,37);font-size:11px">' + row.Time + '</span></div>'+ editDiv + '<div style="clear:both"></div></div>' + modal_popup);
+                    $('#child-comment').append(newDiv);
+                    $("#edit_comment_"+row.id).click(function(event) {
+                      // localStorage.idcomment = row.id;
+                      localStorage.noidung_comment = row.noidung;
+                      $("#sua_comment_"+row.id).show();
+                      $("#xoa_comment_"+row.id).show();
+                      //$("#txtNoidung").html(localStorage.noidung_comment);
+
+                      $("#input_edit_"+row.id).hide();
+                      $("#pop_comment_"+row.id).modal('show');
+                    });
+                    $("#sua_comment_"+row.id).click(function(event) {
+                      $("#input_edit_"+row.id).show();
+                      $("#sua_comment_"+row.id).hide();
+                      $("#xoa_comment_"+row.id).hide();
+                      $("#txtNoidung_"+row.id).focus();
+                      $("#txtNoidung_"+row.id).html(localStorage.noidung_comment);
+                    });
+                    $("#btnSendEdit_"+row.id).click(function(event) {
+                      var noidung = $("#txtNoidung_"+row.id).val();
+                      updateChildComment(row.id, noidung);
+                    });
+                    $("#xoa_comment_"+row.id).click(function(event) {
+                        deleteChildComment(row.id);
+                    });
+                });
+            });
+        }
+        
+        function getCountComment(){
+            $.ajax({
+                type: "POST",
+                data: {id: idcomment},
+                url: baseurl + "child_comment.php?act=countComment",
+                success: function(result){
+                    $('#count_child_comment').html(result);
+                    count_comment = result;
+                },
+            });
+        }
+        getParentComment();
+        getChildComment();
+        getCountComment();
+        $('#send_reply_cm').click(function(){
+            $('#comment_form').submit(function(e){
+                e.preventDefault();
+                var noidung = $("#content_txt").html();
+                var idbv = localStorage.idbv;
+                var parent = localStorage.idcomment;
+                var username = localStorage.iduser;
+                var data = {id : idbv, parent : parent, noidung: noidung, username: username};
+                var url =  baseurl + "child_comment.php?act=insert";
+                if(noidung != ''){
+                    $.ajax({
+                        type: "POST",
+                        url: url,
+                        data: data,
+                        success: function(){
+                            window.location.href="reply_comment.html";
+                        }
+                    });
+                } else {
+                    alert('Bạn chưa nhập bình luận');
+                }
+            });
+        });
+        $('#child-comment').scroll(function(){
+            if($(this).scrollTop() / 160 >= 1){
+                limit += 10;
+                if(limit <= count_comment){
+                    getChildComment(limit);
+                }
+            }        
+        });
+    });
+</script>
+<body style="background:#fff">
+    <nav class="fixed-nav-bar-user" style="background:#fff;height: 8% !important" >
+        <div  style="width:10%;float:left;padding:3px">
+          <a href="post.html" id="post"><img src="img/icn_tp_Camera.png" class="img-responsive" /></a>
+        </div>
+        <div style="width:77%;float:left;padding:0px 0px 10px 0px">
+          <center><img src="img/vbook.png" class="img-responsive" style="max-height:30px" /></center>
+        </div>
+        <div style="width:10%;float:right;padding:3px">
+          <a href="timkiem.html" id="txtTim">
+            <img src="img/find.png" class="img-responsive"  />
+          </a>
+        </div>
+    </nav>
+    
+    <!-- Content -->
+    <div class="content-reply-comment" style="margin-top:60px">
+        <div id="binhluan" style="width:100%; padding: 10px;overflow:hidden">
+            <div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px;overflow:hidden">
+                <!-- Avatar  -->
+                <div style="width:10%;float:left"> 
+                    <img class="img-responsive" id="parent_comment_avatar">
+                </div>
+                <!-- /Avatar -->
+                <!-- Parent Comment -->
+                <div style="width: 75%;padding-left: 10px;float: left">
+                    <div id="parent_comment_content">
+                        
+                    </div>
+                    <span style="font:12px">Bởi</span>
+                    <span style="color:rgb(90, 81, 204);font-size:12px" id="parent_comment_author"></span>
+                    <span style="color:rgb(168, 37, 37);font-size:11px" id="parent_comment_time"></span>
+                </div>
+                <!-- /Parent Comment -->
+            </div>
+            <div style="width:100%;clear:both">
+                <div style="width:7%;float:left;margin:0px 0px 10px 0"><img class="img-responsive" src="img/comment_nf.png">
+                </div>
+                <div style="width: 10%;float:left;margin:0px 0px 10px 5px" id="count_child_comment"></div>
+            </div>
+        </div>
+        <hr style="clear:both;margin-top:0px">
+        <div class="child-comment" id="child-comment" style="margin-left:10px; margin-top:-10px; max-height:400px; overflow: scroll">
+            
+        </div>
+    </div>
+    <!-- /Content -->
+    
+    <!-- Comment Box -->
+    <div class="comment_box" style="position:fixed; bottom:50px; left:0; right:0;z-index:9999;width:100%;height:auto;">
+        <form method="post" id="comment_form">
+            <div contenteditable="true" cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content_txt" style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px;padding: 10px;background:#fff"></div>
+            <input type="image" id="send_reply_cm" border="0" name="submit" src="img/icn_tp_Plane1.png" style="width:8%;float:right;">
+        </form>
+    </div>
+    <!-- /Comment Box -->
+    <nav class="fixed-nav-bar" style="background:#fff">
+        <div class="menu" >
+
+            <div class="menu_bootstrap">
+              <a href="profile.html" id="profiles"><img src="img/user.png" class="img-responsive" /></a>
+            </div>
+            <div class="menu_bootstrap">
+              <a href="home.html" id="home">
+                <img src="img/home.png" class="img-responsive"  />
+              </a>
+            </div>
+            <div class="menu_bootstrap" >
+              <a href="follow.html" id="user"><img src="img/icn_btBar_13.png" class="img-responsive"  /></a>
+            </div>
+            <div class="menu_bootstrap">
+              <a href="chat.html">
+                <img src="img/chat.png" class="img-responsive" style="position: relative; " />
+
+              </a>
+              <div id="badge_message">
+
+              </div>
+            </div>
+            <div class="menu_bootstrap" id="chuong2">
+              <div style="position:relative" id="chuong">
+                <img src="img/chuong.png" class="img-responsive"  />
+                <div id="note">
+
+                </div>
+              </div>
+            </div>
+
+        </div>
+    </nav>
