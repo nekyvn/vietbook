@@ -87,7 +87,7 @@
                         '"  style="margin-top:5px;margin-bottom:10px"></div> <div style="clear:both"></div><hr style="margin:0px;margin-bottom:10px" />   <div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green' +
                         id + '" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow' + id + '" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userliked2_' + id +
                         '"></div> <div style="width:7%;float:left;margin:0px 0px 10px 5px" id="click_comment_'+id+'"><img src="img/comment_nf.png" class="img-responsive" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment2_' +
-                        id + '"></div> </div> <hr style="clear:both" /> <!-- Comment --> <div class="comment_p"> <!-- Area từng comment --> ');
+                        id + '"></div> <div id="chat_'+id+'" style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px"><img class="img-responsive" src="img/chat.png"></div></div> <hr style="clear:both" /> <!-- Comment --> <div class="comment_p"> <!-- Area từng comment --> ');
 
                     $("#click_comment_"+id).click(function() {
                       localStorage.idbv = id;
@@ -141,6 +141,10 @@
                         localStorage.idbv = id;
                         window.location.href = "editbaiviet.html";
                         $('#option_' + id).modal('hide');
+                    });
+                    $('#chat_'+id).click(function(){
+                        localStorage.username = iduser;
+                        window.location.href="chatting.html";
                     });
                     //Xóa bài viết
                     $("#del_" + id).click(function() {
