@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html style="background: url(img/chat_bg.jpg) no-repeat center center fixed;background-size: cover;">
 <head>
     <meta charset="UTF-8">
     <meta name="format-detection" content="telephone=no" />
@@ -203,7 +203,7 @@
     }
     </script>
 </head>
-<body style="background: url(../img/chat_bg.jpg);">
+<body>
   <nav class="fixed-nav-bar-user" style="background:#fff;">
     <div  style="width:10%;float:left;padding:3px">
       <a href="post.html" id="post"><img src="img/icn_tp_Camera.png" class="img-responsive" /></a>
@@ -220,8 +220,8 @@
 
 
   <!-- Show danh mục-->
-  <div class="cate" id="cate" style="margin-top:-40px;">
-    <div class="trangcanhan" id="trangcanhan" style="margin-top:80px">
+  <div id="cate" style="margin-top:30px">
+    <div class="trangcanhan" id="trangcanhan" style="margin-top:100px">
       <!-- Chat -->
           <ol class="chat" id="Box-Chat" style="margin-bottom: 35px;">
 
@@ -231,17 +231,16 @@
 -moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.3);
 box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.3);padding-left:10px"></div>
           <div id="Box-Message" style="position: fixed;
-    width: 65%;
+    width: 68%;
     left: 45px;
     bottom: 0px;
     height: 45px;
     padding: 5px;
     background:#fff;z-index:9999;margin-bottom: 0px;overflow:hidden"  contenteditable="true" placeholder="Nhập nội dung..."></div>
-        <img src="img/emoticons/4.png" id="emotion_btn" style="    width: 40px;
+        <img src="img/emoticons/4.png" id="emotion_btn" style="    width: 45px;
     position: fixed;
     right: 45px;
-    height: 40px;
-    bottom: 2px;
+    bottom: 0px;
     background: #fff;
     z-index: 9999;">
           <input type="image" onclick="OnClick_SentMessage()" id="chat_send"  border="0" name="submit" src="img/check.png" style="background:#fff;z-index:9999">

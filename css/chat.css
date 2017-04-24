@@ -310,9 +310,9 @@ input.textarea {
     position: fixed;
     display: block;
     bottom: 0px;
-    right: 7px;
-    width: 38px;
-    height: 41px;
+    right: 0;
+    width: 45px;
+    height: 45px;
     background-repeat: no-repeat;
     background-size: cover;
     z-index: 100;
@@ -323,9 +323,9 @@ input.textarea {
     position: fixed;
     display: block;
     bottom: 0px;
-    left: 7px;
-    width: 38px;
-    height: 41px;
+    left: 0;
+    width: 44px;
+    height: 45px;
     background-repeat: no-repeat;
     background-size: cover;
     z-index: 100;
