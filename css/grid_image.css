@@ -1,0 +1,123 @@
+.image-grid-panel{
+	position: fixed; 
+	width: 100%; 
+	height: 100%; 
+	background-color: black; 
+	left: 0px; 
+	top: 0px;
+	z-index: 9999;
+}
+.image-grid-panel .title-bar{
+	width: 100%;
+    height: 5%;
+    position: absolute;
+    z-index: 8888;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+.image-grid-panel .dock-image{
+	width: 100%;
+    height: 94%;
+    background-color: black;
+    margin: auto;
+    /*position: relative;*/
+}
+.image-grid-panel .dock-image img{
+    top:0;
+    left:0;
+    right:0;
+    bottom:0;
+    margin:auto;
+}
+.image-grid-panel .action-bar{
+	width: 100%;
+    height: 11%;
+    position: absolute;
+    z-index: 8888;
+    background-color:rgba(0, 0, 0, 0.5);
+}
+.image-view-back {
+    position: absolute;
+    top: 40%;
+    left: 0;
+}
+.image-view-next{
+	position: absolute;
+	top: 40%;
+	right: 0;
+}
+.view-icon{
+	width: 50px;
+}
+.image-view-back:before{
+	content: "\e079";
+	color: #fff;
+	font-size:50px;
+	font-family: 'Glyphicons Halflings';
+}
+.image-view-next:before{
+	content: "\e080";
+	color: #fff;
+	font-size: 50px;
+	font-family: 'Glyphicons Halflings';
+}
+.GridImageCell{
+	position: relative;
+}
+.GridImageCell .view-all {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    text-align: center;
+}
+.GridImageCell .view-all:before {
+    display: inline-block;
+    content: "";
+    vertical-align: middle;
+    height: 100%;
+}
+.GridImageCell .view-all-cover {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: black;
+    opacity: 0.4;
+    z-index: 9997;
+}
+.GridImageCell .view-all-text {
+    position: relative;
+    font-size: 16px;
+    font-family: sans-serif;
+    color: white;
+    z-index: 9997;
+}
+.number_like, .number_comment{
+	width:10px;
+	float: left;
+	margin-left: 5px;
+    margin-top: 0;
+	color: #fff;
+	font-size: 25px;
+}
+.modal{
+	z-index:99999;
+}
+.action-bar .icn_btn{
+    float: left; margin-left: 10px; margin-top:5px
+}
+#popupcomment .modal-content{
+    height: 100%;
+}
+#popcomment .modal-header{
+    height: 10%;
+}
+#popupcomment .modal-body{
+    height: 70%;
+    overflow: scroll;
+}
+#popupcomment .modal-footer{
+    height: 20%;
+}

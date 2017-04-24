@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <link rel="stylesheet" href="css/base.css">
+    <title>Gian hàng online</title>
+    <script>
+    $(document).ready(function(){
+      $('#back2').click(function(){
+          window.location.href="profile.html";
+      });
+    });
+    </script>
+</head>
+<body>
+  <nav class="fixed-nav-bar-user" style="background:#fff;">
+    <div  style="width:10%;float:left;padding:3px">
+      <a id="back2"><img src="img/back.png" class="img-responsive" /></a>
+    </div>
+    <div style="width:77%;float:left;padding:0px 0px 10px 0px">
+      <center><img src="img/vbook.png" class="img-responsive" style="max-height:30px" /></center>
+    </div>
+    <div style="width:10%;float:right;padding:3px">
+      <a href="timkiem.html" id="txtTim">
+        <img src="img/find.png" class="img-responsive"  />
+      </a>
+    </div>
+  </nav>
+
+  <nav class="fixed-nav-bar" style="background:#82c7f1;text-align:center;padding:10px;color:#fff" id="luu">
+    <div>LƯU</div>
+  </nav>
+  <!-- Show danh mục-->
+  <div class="se-pre-con"></div>
+    <div class="trangcanhan" id="trangcanhan" style="margin-top:45px;margin-bottom:40px">
+      <div style="background:#fbfbfb;padding:10px;border-bottom:1px solid #f6f6f6">
+        <p style="font-weight:bold">Tùy chỉnh thông tin</p>
+        Hãy tùy chỉnh thông tin cá nhân của bạn để hiển thị đến mọi người
+      </div>
+      <div style="border-bottom:1px solid #f6f6f6;">
+        <input id="log_fullname" type="text" class="form-control" placeholder="Họ tên" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;;border-radius:0;font-size:14px;color:#53C1F1" />
+      </div>
+      <div style="border-bottom:1px solid #f6f6f6">
+        <input id="log_email" type="text" class="form-control" placeholder="Số di động hoặc email" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-radius:0;font-size:14px;color:#53C1F1" />
+      </div>
+      <div style="border-bottom:1px solid #f6f6f6">
+        <textarea class="form-control" rows="3" id="log_diachi" placeholder="Bạn ở đâu?" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-radius:0;font-size:14px;color:#53C1F1" /></textarea>
+      </div>
+      <div style="border-bottom:1px solid #f6f6f6">
+        <textarea class="form-control" rows="5" id="log_gioithieu" placeholder="Hãy giới thiệu về bản thân mình" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-radius:0;font-size:14px;color:#53C1F1" /></textarea>
+      </div>
+      <div style="border-bottom:1px solid #f6f6f6">
+        <center>
+          <form id="myform">
+            <input id="log_nam" type="radio" name="rdGioitinh" value="female" checked=""> Nữ  &nbsp;&nbsp;<input id="log_nu" value="male" name="rdGioitinh" type="radio" > Nam  <br/><br/>
+          </form>
+        </center>
+      </div>
+    </div>
+  <span id="test" style="color:#fff"></span>
+<script src="cordova.js" type="text/javascript"></script>
+<script type="text/javascript">
+localStorage.page = "setting.html";
+  $(document).ready(function()
+  {
+  ShowThongTin();
+  ChangeIcon("profiles","profiles");
+  var IdUser=localStorage.iduser;
+  var root = baseurl+"";
+  var url=root+"show_note_detail.php?id="+IdUser;
+  var urlCover = root+"data/img/cover/";
+  var urlAvatar = root+"data/img/avatar/";
+  $.getJSON(url,function(result){
+    console.log(result);
+    $.each(result, function(i, field){
+    var id=field.id;
+    var username=field.username;
+    var avatar=field.avatar;
+    var cover=field.cover;
+    var hoten=field.hoten;
+    var openid=field.openid;
+    var type = field.type;
+    var trangthai = "";
+    switch (type) {
+      case "follow":
+        trangthai = "theo dõi bạn"
+        break;
+      case "like":
+        trangthai = "thích bài đăng của bạn"
+        break;
+      case "comment":
+        trangthai = "bình luận bài đăng của bạn"
+        break;
+      default:
+    }
+    var Time=field.Time;
+    //$("#trangcanhan").append('<div style="width:13%;float:left;padding-bottom:10px"> <img src="'+urlAvatar+avatar+'" class="img-responsive" /> </div> <div style="width:85%;float:left;margin-left:5px" id="hoten_'+id+'"> <span style="color:rgb(0, 89, 194);font-size:12px">'+hoten+" đã "+trangthai+'</span><br /> <span style="color:rgb(180, 180, 180);font-size:10px">'+CachDay(Time)+'</span> </div><div style="clear:both"></div>');
+    switch (type) {
+      case "follow":
+        GotoTarget("user.html",username,"hoten_"+id)
+        break;
+      case "like":
+        GotoArticle("article.html",openid,IdUser,"hoten_"+id)
+        break;
+      case "comment":
+        GotoArticle("article.html",openid,IdUser,"hoten_"+id)
+        break;
+      default:
+    }
+    });
+  });
+  $(".se-pre-con").fadeOut("slow");
+  SaveProfile();
+  });
+  function ShowThongTin()
+  {
+    var IdUser=localStorage.iduser;
+    var url=baseurl+"show_profile.php?id="+IdUser;
+    $.getJSON(url,function(result){
+      $.each(result, function(i, field){
+      var id=field.id;
+      var hoten=field.hoten;
+      var email=field.email;
+      var gioithieu=field.gioithieu;
+      var diachi=field.diachi;
+      var gioitinh=field.gioitinh;
+      var type = field.type;
+      $('#log_fullname').val(hoten);
+      $('#log_email').val(email);
+      $('#log_diachi').val(diachi);
+      $('#log_gioithieu').val(gioithieu);
+      console.log(gioitinh);
+      if(gioitinh=="female")
+        $("input[name=rdGioitinh][value='female']").prop("checked",true);
+      else
+        $("input[name=rdGioitinh][value='male']").prop("checked",true);
+      });
+    });
+  }
+  //XỬ lý update thông tin
+  //Xử lý lưu thông tin profile
+  function SaveProfile()
+  {
+    $("#luu").click(function(){
+      var Fullname = $("#log_fullname").val();
+      var Email = $("#log_email").val();
+      var Gioithieu = $("#log_gioithieu").val();
+      var Diachi = $("#log_diachi").val();
+      var Gioitinh = $("#myform input[type='radio']:checked").val();
+      var dataString="username="+localStorage.iduser+"&Fullname="+Fullname+"&Gioithieu="+Gioithieu+"&Diachi="+Diachi+"&Email="+Email+"&Gioitinh="+Gioitinh+"&Update=";
+      if($.trim(Fullname).length>0 & $.trim(Email).length>0  )
+      {
+        $.ajax({
+          type: "POST",
+          url: baseurl+"update_profile.php",
+          data: dataString,
+          crossDomain: true,
+          cache: false,
+          beforeSend: function(){ $("#luu").html('Đang xử lý ...');},
+          success: function(data)
+          {
+              if(data=="ok")
+              {
+                alert("Lưu thành công!");
+                $("#luu").text("LƯU");
+              }
+              else
+              {
+                alert("Lưu thất bại, hãy kiểm tra lại thông tin!");
+                $("#luu").text("LƯU");
+              }
+          }
+        });
+      }
+      else
+      {
+          alert("Bạn chưa nhập đầy đủ thông tin");
+      }
+    });
+  }
+
+
+</script>
+<script type="text/javascript">
+//Show số lượng thông báo
+var username = localStorage.iduser;
+ShowNote(username,"note","show_note.php");
+//Hàm update note và chuyển đến trang chi tiết note
+var page="note.html";
+var control="chuong";
+var action="update_note.php";
+//Idea: Kiểm tra theo post localStorage.sonote nếu > 0 mới update
+GotoNote(page,username,control,action);
+GotoPage2_focus("timkiem.html","txtTim");
+</script>
+</body>
+</html>

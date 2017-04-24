@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/md5.min.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/emoticon.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <title>Gian hàng online</title>
+    <script>
+    $(document).ready(function(){
+      $('#back2').click(function(){
+          window.location.href="home.html";
+      });
+      var urlAvatar = root+"data/img/avatar/" + localStorage.avatar;
+      $('#avatar').attr('src', urlAvatar);
+    });
+    function onBackKeyDown() {
+        if (confirm("Bạn có chắc hủy bài viết?") == true) {
+            window.location.href="home.html";
+          }
+      }
+    </script>
+    <style>
+    [contenteditable=true]:empty:before{
+        content: attr(placeholder);
+        display: block; /* For Firefox */
+      }
+    </style>
+</head>
+<body >
+  <nav class="fixed-nav-bar" style="background:#fff">
+    <div class="menu" >
+
+        <div class="menu_bootstrap3">
+          <a  id="back2"><img src="img/back.png" class="img-responsive"  /></a>
+        </div>
+        <div class="menu_bootstrap5" style="padding:10px 0px 0px 0px">
+          <h5 style="color:#000;text-align:right;font-weight:bold;margin-top:7px"></h5>
+        </div>
+        <div class="menu_bootstrap4" style="padding:5px 0px 0px 0px">
+          <h5 style="color:#000;text-align:right;font-weight:bold;margin-top:7px" id="dang">ĐĂNG</h5>
+        </div>
+
+    </div>
+</nav>
+  <!-- Show thông tin-->
+  <div class="se-pre-con" style="margin-top:0px"></div>
+  <div style="background:#fff;margin-top:0px" >
+
+  <br />
+
+  <div style="padding:0px" >
+
+    <!-- Post status -->
+
+    <div class="col-xs-12" style="padding:0px" >
+      <div class="col-xs-3" style="padding:0px" >
+        <div style="width:50px">
+          <div class="khungvien" style="width: 100%;">
+          <img src="img/article.png" id="avatar" class="img-responsive" style="border-radius:50%;padding:3px;border: 1px solid #b2b2b2;"/>
+        </div>
+      </div>      </div>
+      <div class="col-xs-9" style="padding:0px 0px 0px 10px">
+        <div  rows="3" placeholder="Bạn đang nghĩ gì?" name="content" id="txtContent"  contenteditable="true"
+          style="overflow: hidden;  outline: none;border: 0 none #FFF;width:100%"></div>
+      </div>
+    </div>
+    <span id="test"></span>
+    <div style="clear:both"></div>
+    <div id="progress-wrp"><div class="progress-bar"></div ><div class="status" style="font-size:2px">0%</div></div>
+
+    <hr style="clear:both;margin:5px 0px 10px 0px;" />
+    <div id="output" style="padding:15px"><!-- error or success results --></div>
+  </div>
+  <div class="col-xs-12" style="padding:0px 5px 0px 5px" >
+    <div id="showimg"></div>
+
+      <form id="uploadimage" action="" method="post" enctype="multipart/form-data">
+        <div  class="col-xs-4 col-sm-5cols" style="padding-bottom:30px">  <label for="files"><div id="wrap_addimg" style="border: 1px dashed #7c7c7c;padding: 13px;margin-top: 1px"><img src="img/icn_btBar_picture_black.png" class="img-responsive" id="addimg" onclick="getphoto();" style="width:40px" /></div></label> </div>
+        <!-- <input type="file" multiple id="file" style="display: none" accept="image/*" /> -->
+      </form>
+      <!-- <button onclick="getPhoto();">From Photo Library</button><br> -->
+  </div>
+  <div id="showEmbedly" style="width: 90%; margin: auto;">
+
+        </div>
+
+  <div id="r_timelife">
+    <!-- r_timelife -->
+    <span id="test" style="color:#fff"></span>
+  </div>
+
+</div>
+
+
+<script src="cordova.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+// Xử lý preview link
+function Parameter(url, width, word)
+{
+    this.url = url;
+    this.key = '7f6cf7cec28511e0866c4040d3dc5c07';
+    this.autoplay = true;
+    this.wmode = 'opaque';
+    this.maxwidth = width;
+    this.words = word;
+}
+
+Parameter.prototype.ToString = function()
+{
+    return "url=" + this.url + "&key=" + this.key + "&autoplay=" + this.autoplay + "&wmode=" + this.wmode +
+    "&maxwidth=" + this.maxwidth + "&words=" + this.words;
+}
+
+function Embedly(obj)
+{
+    this.provider_url = obj.provider_url;
+    this.original_url = obj.original_url;
+    this.url = obj.url;
+    this.favicon_url = obj.favicon_url;
+    this.title = obj.title;
+    this.description = obj.description;
+    this.provider_url = obj.provider_url;
+    this.images = obj.images;
+    this.object = obj.object;
+}
+
+Embedly.prototype.html = function()
+{
+    var divembedly = document.createElement("div");
+    var divImage = document.createElement("div");
+    var divDetails = document.createElement("div");
+    var divTitle = document.createElement("div");
+    var image = document.createElement("img");
+    var divdescription = document.createElement("div");
+
+    divembedly.appendChild(divImage);
+    divembedly.appendChild(divDetails);
+    divImage.appendChild(image);
+    divDetails.appendChild(divTitle);
+    divDetails.appendChild(divdescription);
+
+    divembedly.id = 'divembedly';
+    divembedly.align = 'center';
+    divembedly.style = 'style';
+    divembedly.setAttribute('url',this.provider_url);
+    divembedly.setAttribute('onclick','location.href = "' + this.url + '"');
+
+
+    divImage.align = 'center';
+    divImage.id = 'div-image',
+
+
+    divDetails.id = 'div-details',
+    divDetails.style = 'width: 100%;';
+
+    divTitle.id = 'title';
+    divTitle.style = 'font-size: 100%;';
+    divTitle.innerText = this.title;
+
+    image.id = 'image-embedly';
+    image.style = "width: 100%; border: 1px solid black";
+    if(this.images.length == 0)
+        image.src = this.favicon_url;
+    else
+    {
+        image.src = this.images[0].url;
+    }
+    divdescription.id = 'description';
+    divdescription.innerText = this.description;
+
+    return divembedly.outerHTML;
+}
+var embed_code = "";
+function GetEmbedly(url)
+{
+    document.getElementById("showEmbedly").innerHTML = "";
+    
+    if(url)
+    {
+    var data = new FormData();
+
+    var param = new Parameter(url, 500, 30);
+    console.log(param.ToString());
+  
+    console.log("http://api.embed.ly/1/preview?" + param.ToString());
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.open('GET', "http://api.embed.ly/1/preview?" + param.ToString(), true);
+    xhttp.onload = function () {
+        if(xhttp.readyState == 4 && xhttp.status == 200)
+        {
+            //console.log(this.responseText);
+            var obj = JSON.parse(this.responseText);
+            var emb = new Embedly(obj);
+            document.getElementById("showEmbedly").innerHTML = emb.html();
+            embed_code = emb.html();
+        }
+        else
+            console.log("Error");
+    };
+    xhttp.send();
+  }
+}
+
+//Vinh' code at here
+  function DecodeTxtConnet()
+  {
+      var txtContent = document.getElementById("txtContent");
+      var txt = DecodeEmoticon(txtContent.innerHTML, 10);
+
+      if(txtContent.innerHTML.length != txt.length)
+      {
+
+        //Fix last element at DecodeEmoticon
+        var status = String("<status />");
+        var index = txt.indexOf(status);
+        if(index >= 0)
+        {
+            //cắt nó đi
+            console.log(txt);
+            var first = txt.slice(0,index);
+            var last = txt.slice(index + status, txt.length);
+            txt = first + last + status;
+            console.log(txt);
+        }
+        else
+          txt = txt + status;
+        txtContent.innerHTML = txt;
+        txtContent.focus();
+
+        var el = document.getElementById("txtContent");
+        var range = document.createRange();
+        var sel = window.getSelection();
+        range.setStart(el.lastChild, range.endOffset);
+        range.collapse(true);
+        sel.removeAllRanges();
+        sel.addRange(range);
+      }
+      setTimeout(DecodeTxtConnet,20);
+  }
+
+  setTimeout(DecodeTxtConnet,20);
+
+  $(document).ready(function()
+  {
+    $("#txtContent").on('input', function(){
+      var url = $("#txtContent").text().match(/(https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9][a-zA-Z0-9-]+[a-zA-Z0-9]\.[^\s]{2,}|https?:\/\/(?:www\.|(?!www))[a-zA-Z0-9]\.[^\s]{2,}|www\.[a-zA-Z0-9]\.[^\s]{2,})/i);
+      // console.log(url[0]);
+      if(url != null){
+        GetEmbedly(url[0]);
+      }
+    });
+    $("#Tim").keyup(function(){
+      var type = localStorage.type;
+      if(type=="shop")
+      {
+        loaduser();
+      }
+      else
+      {
+        loadsanpham();
+      }
+    });
+    $(".se-pre-con").fadeOut("slow");
+    $("#progress-wrp").hide() ;
+  var IdUser=localStorage.iduser;
+  var root = baseurl+"";
+  var url=root+"show_profile.php?id="+IdUser;
+  var urlCover = root+"data/img/cover/";
+  var urlAvatar = root+"data/img/avatar/";
+  $.getJSON(url,function(result){
+    console.log(result);
+    $.each(result, function(i, field){
+    var id=field.id;
+    var username=field.iduser;
+    var avatar=field.avatar;
+    var cover=field.cover;
+    var hoten=field.hoten;
+    var Time=field.Time;
+    });
+  });
+  });
+  $("#txtContent").keypress(function(){
+    var lenghtContent = $("#txtContent").val();
+    if(lenghtContent.length+1>0)
+    {
+      $("#dang").show();
+    }
+  })
+</script>
+<!-- Xử lý insert status -->
+<script type="text/javascript">
+localStorage.Img = "";
+localStorage.Img_Save = "";
+$("#dang2").click(function(){
+var Content=$("#txtContent").val();
+var IdUser=localStorage.iduser;
+var dataString="txtContent="+Content+"&IdUser="+IdUser+"&SendStt=";
+if($.trim(Content).length>0)
+{
+  $.ajax({
+  type: "POST",
+  url: baseurl+"insert_status.php",
+  data: dataString,
+  crossDomain: true,
+  cache: false,
+  success: function(data)
+  {
+      if(data=="Success")
+      {
+        window.location.href = "profile.html";
+      }
+      else
+      {
+        $("#test").html(data);
+      }
+      //$("#test").html(data);
+  }
+  });
+}
+else{
+  alert("Bạn chưa nhập trạng thái");
+}
+});
+
+
+//Image upload
+$("#file").change(function() {
+  $("#progress-wrp").show() ;
+  var file_name=$("#file").val();
+  var fileName = $("#file").val();
+  var fileExtension = fileName.substring(fileName.lastIndexOf('.') + 1);
+  var base_url = baseurl+'upload_4.php';
+
+  var numFiles = $("input:file")[0].files.length;
+  var file_data=[""];
+  var form_data=new FormData();
+  for(var i=0;i<numFiles;i++)
+  {
+    file_data[i] = ($("#file").prop("files")[i]);
+    form_data.append("txtImage['"+i+"']",file_data[i]);
+  }
+
+
+
+  var progress_bar_id 		= '#progress-wrp';
+  var TenFile =  Math.floor((Math.random() * 99999999999999999999) + 1);
+
+  form_data.append('UpdateIMG', "");
+  form_data.append('TenFile', TenFile);
+    $.ajax({
+      type:"POST",
+      url: base_url,
+      datatype:'script',
+      cache:false,
+      contentType:false,
+      processData:false,
+      xhr: function(){
+        //upload Progress
+        var xhr = $.ajaxSettings.xhr();
+        if (xhr.upload) {
+            xhr.upload.addEventListener('progress', function(event) {
+                var percent = 0;
+                var position = event.loaded || event.position;
+                var total = event.total;
+                if (event.lengthComputable) {
+                    percent = Math.ceil(position / total * 100);
+                }
+                //update progressbar
+                $(progress_bar_id +" .progress-bar").css("width", + percent +"%");
+                $(progress_bar_id + " .status").text(percent +"%");
+            }, true);
+        }
+        return xhr;
+      },
+      mimeType:"multipart/form-data",
+      data:form_data,
+      success:function(data)
+      {
+            if(data=="Upload Fail")
+            {
+              $("#test").html(data);
+              //window.location.href = "profile.html";
+
+            }
+            else
+            {
+
+              var new_data = data.split('||');
+              //console.log(new_data[0]);
+              var num_new_data = new_data.length-1;
+              for(var i=0;i<num_new_data;i++)
+              {
+                localStorage.Img += '<div class="col-xs-4 col-sm-5cols"> <div class="thunho"> <img src="'+baseurl+'data/img/'+new_data[i]+'"> </div> </div>';
+                localStorage.Img_Save += new_data[i]+"||";
+              }
+              $('#showimg').html(localStorage.Img);
+              $('#addimg').show();
+              $('#dang').show();
+              //UpdateStatus(localStorage.Img_Save);
+              //$("#test").html(data);
+            }
+            //$("#test").html(data);
+      }
+    });
+});
+var num_new_data = 0;
+$("#dang").click(function() {
+  localStorage.dem2 = 0;
+  var new_data = localStorage.Img_Save.split('||');
+  num_new_data = new_data.length-1;
+  var typeup = "status";
+  if(num_new_data>0)
+  {
+    typeup = "img";
+  }
+  var data = "";
+
+  for(var i=0;i<num_new_data;i++)
+  {
+    var newname = md5(new Date() + Math.random()) + "_" + new_data[i].substr(new_data[i].lastIndexOf('/') + 1);
+    localStorage.newname = newname;
+    data += newname +"||";
+    uploadFile(new_data[i]);
+    localStorage.dem2 ++;
+  }
+waits_no_action(num_new_data+1);
+var Content=document.getElementById("txtContent").innerHTML;;
+Content= Content.replace(/\n\r?/g, '<br />');
+Content= Content.replace(/((http|https|ftp|ftps)\:\/\/[a-zA-Z0-9\-\.]+\.[a-zA-Z]{2,3}(\/\S*)?)/g,
+    '<a href="$1">$1</a>');
+var IdUser=localStorage.iduser;
+var base_url = baseurl+'insert_status.php';
+var form_data=new FormData();
+var progress_bar_id 		= '#progress-wrp';
+form_data.append('txtContent', Content);
+form_data.append('SendStt', "");
+form_data.append('IdUser', IdUser);
+form_data.append('TenFile', data);
+form_data.append('preview', embed_code);
+  if(typeup=="status")
+  {
+    if(Content=="")
+    {
+      alert("Chưa nhập trạng thái!");
+    }
+    else
+    {
+      $.ajax({
+        type:"POST",
+        url: base_url,
+        datatype:'script',
+        cache:false,
+        contentType:false,
+        processData:false,
+        data:form_data,
+        success:function(data)
+        {
+              if(data=="Success")
+              {
+                //window.location.href = "profile.html";
+                changetext();
+                waits(1);
+              }
+              else
+              {
+                $("#test").html(data);
+              }
+              //$("#test").html(data);
+        }
+      });
+    }
+  }
+  else
+  {
+    $.ajax({
+      type:"POST",
+      url: base_url,
+      datatype:'script',
+      cache:false,
+      contentType:false,
+      processData:false,
+      data:form_data,
+      success:function(data)
+      {
+            if(data=="Success")
+            {
+              //window.location.href = "profile.html";
+              changetext();
+              waits(localStorage.dem2*2);
+            }
+            else
+            {
+              $("#test").html(data);
+            }
+            //$("#test").html(data);
+      }
+    });
+  }
+});
+function waits(s)
+{
+  setTimeout(function() {
+    window.location.href = "profile.html";
+  }, s*1000);
+}
+function waits_no_action(s)
+{
+  setTimeout(function() {
+
+  }, s);
+}
+var dem = 0;
+function changetext()
+{
+  $(document).ready(function () {
+    if(uploaded==num_new_data)
+    {
+      document.getElementById("dang").innerHTML = "<img src='img/loader.gif'  /> Đã up xong, đang lưu lại";
+    }
+    else
+    {
+      document.getElementById("dang").innerHTML = "<img src='img/loader.gif' /> Đã up "+uploaded+" hình";;
+    }
+    setTimeout(function() {
+        changetext();
+    }, 1000);
+  });
+}
+
+
+
+</script>
+</body>
+</html>

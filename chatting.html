@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script type="text/javascript" src="js/emoticon.js"> </script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" type="text/css" href="css/chat.css" />
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <link rel="stylesheet" href="css/base.css">
+
+    <title>Gian hàng online</title>
+    <script type="text/javascript">
+    $(window).on("error", function(evt) {
+
+    console.log("jQuery error event:", evt);
+    var e = evt.originalEvent; // get the javascript event
+    console.log("original event:", e);
+    if (e.message) { 
+        alert("Error:\n\t" + e.message + "\nLine:\n\t" + e.lineno + "\nFile:\n\t" + e.filename);
+    } else {
+        alert("Error:\n\t" + e.type + "\nElement:\n\t" + (e.srcElement || e.target));
+    }
+});
+    $(window).load(function() {
+      $('html,body').animate({ scrollTop: 9999999 }, 'slow');
+    });
+    function OnClick_SentMessage() {
+        
+      var idRoom = 1;
+      var idUserTxt = localStorage.iduser;
+      var user2 = localStorage.username;
+      var message = document.getElementById("Box-Message").innerHTML;
+      var url = baseurl + "reply.php";
+      var form = new FormData();
+      form.append("room", idRoom);
+      form.append("user",idUserTxt);
+      form.append("user2",user2);
+      form.append("message",message);
+      var xhttp = new XMLHttpRequest();
+      xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+              console.log(this.responseText);
+          }
+      };
+      xhttp.open("POST",url, true);
+      xhttp.send(form);
+      WriteMessage(idUserTxt,message,localStorage.avatar);
+      document.getElementById("Box-Message").innerHTML = "";
+      $('html,body').animate({ scrollTop: 9999999 }, 'slow');
+    }
+    function OnClick_SentImage()
+    {
+        // var openfile = document.createElement("input");
+        // openfile.setAttribute("type","file");
+        // openfile.onchange = function()
+        // {
+        //     if ('files' in openfile)
+        //     {
+        //         if (openfile.files.length > 0)
+        //         {
+        //             var file = openfile.files[0];
+        //             var user1 = localStorage.iduser;
+        //             var user2 = localStorage.username;
+        //             var form = new FormData();
+        //             form.append("file",file);
+        //             form.append("user1",user1);
+        //             form.append("user2",user2);
+
+        //             var url = baseurl + "send_image.php";
+
+        //             var xhttp = new XMLHttpRequest();
+        //             xhttp.open("POST",url , true);
+
+        //             xhttp.upload.onprogress = function(e) {
+        //                 if (e.lengthComputable) {
+        //                 var percentComplete = (e.loaded / e.total) * 100;
+        //                 console.log(percentComplete + '% uploaded');
+        //                 }
+        //             };
+
+        //             xhttp.onreadystatechange = function()
+        //             {
+        //                     if (this.readyState == 4 && this.status == 200)
+        //                     {
+        //                         console.log(this.responseText);
+        //                         WriteMessage(user1,this.responseText,localStorage.avatar);
+        //                         $('html,body').animate({ scrollTop: 9999999 }, 'slow');
+        //                     }
+        //             };
+
+        //             xhttp.send(form);
+        //         }
+        //     }
+        // };
+        // openfile.click();
+        var iduser = localStorage.iduser;
+        var username = localStorage.username;
+        var boxchat = document.getElementById("Box-Chat");
+        var text = document.createElement("p");
+        var UrlAvatar = baseurl + "data/img/avatar/";
+        getphotochat(iduser,username,boxchat,text,UrlAvatar);
+
+    }
+    function WriteMessage(user, message, avatar) {
+        var boxchat = document.getElementById("Box-Chat");
+        var text = document.createElement("p");
+        var UrlAvatar = baseurl + "data/img/avatar/" + avatar;
+        if(user.toLowerCase()==localStorage.iduser.toLowerCase())
+        {
+            text.innerHTML = '<li class="self"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"> '+ DecodeEmoticon(message)+'<br/> </div> </li>';
+        }
+        else
+        {
+            text.innerHTML = '<li class="other"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"> '+ DecodeEmoticon(message)+'<br/> </div> </li>';
+        }
+        boxchat.appendChild(text);
+    }
+
+    function WriteFirstChild(user, message, avatar) {
+        var boxchat = document.getElementById("Box-Chat");
+        var text = document.createElement("p");
+        //text.innerText = user + ": " + message;
+        var UrlAvatar = baseurl + "data/img/avatar/" + avatar;
+        if(user.toLowerCase()==localStorage.iduser.toLowerCase())
+        {
+            text.innerHTML = '<li class="self"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"> '+ DecodeEmoticon(message)+'<br/> </div> </li>';
+        }
+        else
+        {
+            text.innerHTML = '<li class="other"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"> '+DecodeEmoticon(message)+'<br/> </div> </li>';
+        }
+        boxchat.insertBefore(text, boxchat.firstChild);
+    }
+
+    function GetReceiveMessage() {
+        var idRoom = 1;
+        var idUserTxt = localStorage.iduser;
+        var user2 = localStorage.username;
+        var url = baseurl+"receive.php?room=" + idRoom + "&user=" + idUserTxt + "&user2=" + user2;;
+        console.log(url);
+        var check = new Array();
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var message = JSON.parse(this.responseText);
+                if (message.length > 0) {
+                    for (var i = 0; i < message.length; i++) {
+                        WriteMessage(message[i].User, message[i].Value, message[i].Avatar);
+                        check[i] = message[i].Id;
+                        console.log(message[i].Value);
+                    }
+                    CheckReceived(check);
+                }
+            }
+        };
+
+        xhttp.open("GET", url, true);
+        xhttp.send();
+        setTimeout(GetReceiveMessage, 1000);
+    }
+
+    function CheckReceived(check) {
+        var ListId = JSON.stringify(check);
+        var url = baseurl + "checkreceive.php?id=" + ListId;
+        var xhttp = new XMLHttpRequest();;
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                console.log("Checked Id: " + ListId);
+            }
+        };
+
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+
+    function GetMessageHistory() {
+        var idUserTxt = localStorage.iduser;
+        var user2 = localStorage.username;
+        var url = baseurl + "getmessagehistory.php?user1=" + idUserTxt + "&user2=" + user2;
+        var xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                var message = JSON.parse(this.responseText);
+                if (message.length > 0) {
+                    for (var i = 0; i < message.length; i++) {
+                        WriteFirstChild(message[i].User, message[i].Value, message[i].Avatar);
+                    }
+                }
+            }
+        };
+
+        xhttp.open("GET", url, true);
+        xhttp.send();
+    }
+    </script>
+</head>
+<body style="background: url(../img/chat_bg.jpg);">
+  <nav class="fixed-nav-bar-user" style="background:#fff;">
+    <div  style="width:10%;float:left;padding:3px">
+      <a href="post.html" id="post"><img src="img/icn_tp_Camera.png" class="img-responsive" /></a>
+    </div>
+    <div style="width:77%;float:left;padding:0px 0px 10px 0px">
+      <center><img src="img/vbook.png" class="img-responsive" style="max-height:30px" /></center>
+    </div>
+    <div style="width:10%;float:right;padding:3px">
+      <a href="timkiem.html" id="txtTim">
+        <img src="img/find.png" class="img-responsive"  />
+      </a>
+    </div>
+  </nav>
+
+
+  <!-- Show danh mục-->
+  <div class="cate" id="cate" style="margin-top:-40px;">
+    <div class="trangcanhan" id="trangcanhan" style="margin-top:80px">
+      <!-- Chat -->
+          <ol class="chat" id="Box-Chat" style="margin-bottom: 35px;">
+
+
+          </ol>
+          <div id="div-emoticon" style="position:fixed;display:none;left:0px;bottom:40px;background:#fff;z-index:9999;padding-top:5px;-webkit-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.75);
+-moz-box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.3);
+box-shadow: 0px -2px 5px 0px rgba(0,0,0,0.3);padding-left:10px"></div>
+          <div id="Box-Message" style="position: fixed;
+    width: 65%;
+    left: 45px;
+    bottom: 0px;
+    height: 45px;
+    padding: 5px;
+    background:#fff;z-index:9999;margin-bottom: 0px;overflow:hidden"  contenteditable="true" placeholder="Nhập nội dung..."></div>
+        <img src="img/emoticons/4.png" id="emotion_btn" style="    width: 40px;
+    position: fixed;
+    right: 45px;
+    height: 40px;
+    bottom: 2px;
+    background: #fff;
+    z-index: 9999;">
+          <input type="image" onclick="OnClick_SentMessage()" id="chat_send"  border="0" name="submit" src="img/check.png" style="background:#fff;z-index:9999">
+          <input type="image" onclick="OnClick_SentImage()" id="chat_send_img" border="0" name="submit" src="img/icn_btBar_picture_black.png" style="background:#fff;z-index:9999">
+      <!-- End chat -->
+
+    </div>
+  <span id="test" style="color:#fff"></span>
+<script src="cordova.js" type="text/javascript"></script>
+<script type="text/javascript">
+$('#emotion_btn').click(function(){
+    $('#div-emoticon').toggle("slow");
+});
+</script>
+<script type="text/javascript">
+function onBackKeyDown() {
+        window.location.href="chat.html";
+      }
+//Show số lượng thông báo
+var username = localStorage.iduser;
+ShowNote(username,"note","show_note.php");
+//Hàm update note và chuyển đến trang chi tiết note
+var page="note.html";
+var control="chuong";
+var action="update_note.php";
+//Idea: Kiểm tra theo post localStorage.sonote nếu > 0 mới update
+GotoNote(page,username,control,action);
+GotoPage2_focus("timkiem.html","txtTim");
+</script>
+<script type="text/javascript">
+        ShowEmoticonInMenu("div-emoticon","Box-Message");
+        GetReceiveMessage();
+        GetMessageHistory();
+</script>
+</body>
+</html>

@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <script src="js/images-grid.js"></script>
+    <script src="js/md5.min.js" type="text/javascript"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <link rel="stylesheet" href="css/images-grid.css">
+    <link rel="stylesheet" type="text/css" href="css/grid_image.css">
+    <script type="text/javascript" src="js/image-scale.min.js"></script>
+    <script type="text/javascript" src="js/GridImage.js"></script>
+    <script type="text/javascript" src="js/images-layout.js"></script>
+    <script type="text/javascript" src="js/profile.js"></script>
+    <script type="text/javascript" src="js/emoticon.js"></script>
+    <title>Gian hàng online</title>
+    <style>
+    .doimau
+    {
+      background-color: #000;
+    }
+    </style>
+    <script>
+      function onBackKeyDown() {
+        window.location.href="home.html";
+      }
+    </script>
+</head>
+<body >
+  <nav class="fixed-nav-bar-user" style="background-color: transparent;box-shadow:0px 0px 0px 0px #fff;z-index:9998">
+    <div style="width:100%;float:left;padding:0px 0px 10px 0px">
+      <center><img src="img/vbook.png" class="img-responsive" style="max-height:30px" /></center>
+    </div>
+  </nav>
+  <nav class="fixed-nav-bar" id="menunav"  style="background:#fff">
+    <div class="menu" >
+        <div class="menu_bootstrap">
+          <a href="profile.html" id="profiles"><img src="img/user.png" class="img-responsive" /></a>
+        </div>
+        <div class="menu_bootstrap">
+          <a href="home.html" id="home">
+            <img src="img/home.png" class="img-responsive"  />
+          </a>
+        </div>
+        <div class="menu_bootstrap" >
+          <a href="follow.html" id="user"><img src="img/icn_btBar_13.png" class="img-responsive"  /></a>
+        </div>
+        <!-- <div class="menu_bootstrap" style="width:12%;background-color:rgb(0, 0, 0);border-radius:50%">
+          <center><a href="post.html" id="user"><img src="img/add.png" class="img-responsive"  /></a></center>
+        </div> -->
+        <div class="menu_bootstrap">
+          <a href="chat.html">
+            <img src="img/chat.png" class="img-responsive" style="position: relative; " />
+          </a>
+          <div id="badge_message">
+          </div>
+        </div>
+        <div class="menu_bootstrap" id="chuong2">
+          <div style="position:relative" id="chuong">
+            <img src="img/chuong.png" class="img-responsive"  />
+            <div id="note">
+            </div>
+          </div>
+        </div>
+    </div>
+</nav>
+  <!-- Show thông tin-->
+  <div class="se-pre-con"></div>
+  <div style="background:#fff">
+  <div class="profile" id="profile" style="">
+    <!-- Nội dung -->
+  </div>
+  <br />
+  <hr style="clear:both;margin:5px 15px 10px 15px;background:rgb(139, 139, 139)" />
+  <div class="p_status" id="p_status" >
+    <!-- Post status -->
+    <div class="col-xs-6" >
+      <center><a href="post.html" style="color:#000"><img src="img/icn_btBar_camera_black.png" style="width:17%"></a></center>
+    </div>
+    <div class="col-xs-6" >
+      <center><a data-toggle="modal" data-target="#popup_setting" style="color:#000"><img src="img/icn_btBar_setting_black.png" style="width:17%"></a></center>
+    </div>
+    <!-- Popup setting  -->
+    <div id="popup_setting" class="modal fade" role="dialog" style="z-index:9999">
+      <div class="modal-dialog">
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">&times;</button>
+            <h4 class="modal-title">Cài đặt</h4>
+          </div>
+          <div class="modal-body" style="font-size:14px">
+            <p><a href="setting.html" style="color:#636363"><span class="glyphicon glyphicon-pencil"></span> Cập nhật thông tin cá nhân</a></p>
+            <p><a href="update_password.html" style="color:#636363"><span class="glyphicon glyphicon-lock"></span> Cập nhật mật khẩu</a></p>
+            <p><a id="logout" style="color:#636363"><span class="glyphicon glyphicon-log-out"></span> Thoát</a></p>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- End Popup setting  -->
+    <span id="test"></span>
+    <div style="clear:both"></div>
+    <div id="progress-wrp"><div class="progress-bar"></div ><div class="status" style="font-size:2px">0%</div></div>
+    <div id="output"><!-- error or success results --></div>
+  </div>
+  <div style="background:rgb(219, 219, 219);height:15px;"></div>
+  <div style="background:#fff;height:50px">
+    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px" data-toggle="modal" data-target="#click_info">
+      <img src="img/icn_btBar_info_black.png" style="width:34%"><br/>
+    </div>
+    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px" id="click_follow">
+      <img src="img/user.png" style="width:34%"><span style="color:red" id="count_follow"></span><br/>
+      <span id="show_numberfollow"></span>
+    </div>
+    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px">
+      <a href="album.html"><img src="img/icn_btBar_picture_black.png" style="width:34%"></a> <br/>
+    </div>
+    <div style="clear:both"></div>
+  </div>
+  <div style="background:rgb(219, 219, 219);height:15px;"></div>
+  <div id="r_timelife" style="margin-bottom:40px">
+    <!-- r_timelife -->
+  </div>
+  <span id="loading"><img src="img/loader.gif" style="position:fixed;bottom: 10%;left: 50%;" /></span>
+  <span id="test" style="color:#fff"></span>
+</div>
+<div id="click_info" class="modal fade" role="dialog" style="z-index:9999">
+<div class="modal-dialog">
+  <!-- Modal content-->
+  <div class="modal-content">
+    <div class="modal-header">
+      <h4>Thông tin người dùng</h4>
+      <button type="button" class="close" data-dismiss="modal">&times;</button>
+    </div>
+    <div class="modal-body" id="show_popup_userinfo">
+      <div id="fuck">
+        
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button>
+    </div>
+  </div>
+</div>
+</div>
+<!-- Popup Comment -->
+<!-- <div id="popupcomment" class="modal fade in" role="dialog" style="display:none">
+  <div class="modal-content">
+    <div class="modal-header">
+      Bình luận
+    </div>
+    <div id="user_comment" class="modal-body">
+      
+    </div>
+    <div class="modal-footer">
+      <div id="input_comment" class="input_comment">
+        <textarea id="txtcomment" class="input_comment" placeholder="Nhập bình luận" style="width:90%;float:left;margin-bottom:10px;border:none"></textarea>
+        <img id="btnSend" src="img/check.png" style="width:10%;float:left;margin-top:13px"></img>
+      </div>
+      <button class="btn btn-default" id="comment_modal_close">Đóng</button>
+    </div>
+  </div>
+</div> -->
+
+<!-- /Popup Comment -->
+
+<script src="cordova.js" type="text/javascript"></script>
+<!-- Load avatar, cover, tên shop, địa chỉ-->
+<script type="text/javascript">
+localStorage.page = "profile.html";
+  $(document).ready(function()
+  {
+    thoat();
+    load_avatar_cover();
+    load_data();
+    GotoTarget("followed.html",localStorage.idclick ,"click_follow");
+    scroll_hide_nav();
+    DemNguoiFollow();
+  });
+</script>
+
+
+</body>
+</html>

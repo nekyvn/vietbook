@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <script type="text/javascript" src="js/emoticon.js"></script>
+    <title>Vietbook</title>
+    <style media="screen">
+    [contenteditable=true]:empty:before{
+      content: attr(placeholder);
+      display: block; /* For Firefox */
+      }
+      body a{
+        color:#0b98df;
+      }
+    </style>
+</head>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $('#getTokenFrm').hide();
+    $('#loading').hide();
+    $('#btnSubmit1').click(function(){
+      $('#loading').show();
+      if($('#username').val() != ''){
+        var username = $('#username').val();
+        $.ajax({
+          type: "POST",
+          url: baseurl + "forget_password.php",
+          data: {username: username, act: 'request'},
+          success: function(result){
+            if(result == 1){
+              $('#getUserFrm').hide();
+              $('#getTokenFrm').show();
+              $('#loading').hide();
+            } else if(result == 0){
+              $('#loading').hide();
+              alert("Không tìm thấy username: " + username);
+
+            } 
+          }
+        });
+      }else {
+        alert('Username không được để trống');
+      }
+    });
+    $('#btnSubmit2').click(function(){
+      $('#loading').show();
+      $('#thongbao').hide();
+      var username = $('#username').val();
+      var token = $('#token').val();
+      var data = {act: 'reset', username: username, token: token};
+      console.log(data);
+      $.ajax({
+        type: "POST",
+        data: data,
+        url: baseurl + 'forget_password.php',
+        success: function(result){
+          $('#loading').hide();
+          if(result == 1){
+            $('#thongbao').html('Cập nhật mật khẩu thành công, vui lòng kiểm tra email');
+            $('#thongbao').show();
+          } else if(result == 0){
+            alert("Token không hợp lệ");
+          }
+        },
+      });
+    });
+  });
+</script>
+<body style="background:#fdfdfd;color:#0b98df">
+    <!-- Content -->
+
+	<div class="col-xs-12" style="margin-top:80px">
+		<center><img class="img-responsive text-center" src="img/vbook.png" style="width: 50%; height:50%"></img></center>
+	</div>
+  <div class="text-center col-xs-12" style="margin-top: 80px"><img src="img/loader.gif" id="loading"></div>
+  <div class="col-xs-12" style="margin-top: 10px" id="getUserFrm">
+    <input class="form-control" id="username" name="username" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" placeholder="Tên đăng nhập"></input><br/>
+    <button id="btnSubmit1" class="form-control" style="background:#8bd0ef;font-weight:50;color:#0b98df;border-radius:0; border: 1px solid #8bd0ef;font-size:16px;font-family:Tahoma">Lấy mã xác nhận</button><br/>
+  </div>
+  <div class="col-xs-12" style="margin-top:50px" id="getTokenFrm">
+    <div class="alert alert-success" id="thongbao">Yêu cầu cập nhật mật khẩu thành công<br/>Mã xác nhận đã được gửi đến email của bạn. Vui lòng điền mã xác nhận vào khung dưới</div>
+    <input class="form-control" id="token" name="token" style="overflow: hidden;outline: none;border: 0 none #FDFDFD;border-bottom:1px solid #63cff6;border-radius:0;font-size:14px" placeholder="Token"></input><br/>
+    <button id="btnSubmit2" class="form-control" style="background:#8bd0ef;font-weight:50;color:#0b98df;border-radius:0; border: 1px solid #8bd0ef;font-size:16px;font-family:Tahoma">Cập nhật mật khẩu</button><br/>
+  </div>
+  <center><a href="index.html">Đăng Nhập</a></center><br/><br/>
+    <!-- /Content -->
+   
+   

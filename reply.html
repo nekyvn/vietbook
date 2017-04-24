@@ -1,0 +1,566 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width" />
+    <meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
+    <script src="js/jquery.js" type="text/javascript"></script>
+    <script src="js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="js/index.js" type="text/javascript"></script>
+    <script src="js/simplej.js" type="text/javascript"></script>
+    <script src="js/modernizr.js"></script>
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="css/index.css" />
+    <link rel="stylesheet" href="css/base.css">
+    <link rel="stylesheet" href="css/fixed-navigation-bar.css">
+    <script src="js/images-grid.js"></script>
+    <link rel="stylesheet" href="css/grid_image.css">
+    <script type="text/javascript" src="js/GridImage.js"></script>
+    <script type="text/javascript" src="js/images-layout.js"></script>
+    <script type="text/javascript" src="js/emoticon.js"></script>
+    <title>Gian hàng online</title>
+    <style media="screen">
+    [contenteditable=true]:empty:before{
+      content: attr(placeholder);
+      display: block; /* For Firefox */
+      }
+    </style>
+    <script type="text/javascript">
+
+    var IdUser=localStorage.iduser;
+    var idbv = localStorage.idbv;
+    function onBackKeyDown() {
+      window.location.href="home.html";
+    }
+
+        $(document).ready(function() {
+          function run()
+          {
+            ShowMessage();
+            setTimeout(function(){ run();  }, 5000);
+          }
+        run();
+          $(".se-pre-con").fadeOut("slow");
+          var idbv = localStorage.idbv;
+          var root = baseurl+"";
+          var url=root+"show_article.php?id="+idbv;
+          var urlIMG = root+"data/img/";
+          var urlAvatar = urlIMG+"avatar/";
+          $.getJSON(url,function(result){
+            console.log(result);
+            $.each(result, function(i, field){
+              var user = localStorage.iduser;
+              var id=field.id;
+              var iduser=field.iduser;
+              var img=field.img;
+              var noidung=field.noidung;
+              var Time=field.Time;
+              var hoten=field.hoten;
+              var avatar=field.avatar;
+              var NewImg = img.split('||');
+              var num_new_data = NewImg.length-1;
+              var Show_Img = "";
+              var count = 0;
+              var data_img = [];
+              for(var i=0;i<num_new_data;i++)
+              {
+                Show_Img += '<div class="col-xs-4 col-sm-5cols"  id="s_img_click_'+id+i+'"> <div class="thunho"> <img id="img_'+id+i+'"  src="'+urlIMG+NewImg[i]+'" onClick="Test('+id+','+i+');"  /></div></div>';
+                data_img.push(urlIMG+NewImg[i]);
+                count ++;
+              }
+              var stt="";
+              if(count>0) stt="đăng "+count+" ảnh";
+              else stt="cập nhật trạng thái";
+
+              var option ="";
+              var popup_option = "";
+              if(localStorage.iduser==iduser)
+              {
+                option  = '<div style="width:2%;float:left"><span class="glyphicon glyphicon-chevron-down" data-toggle="modal" data-target="#option_'+id+'" "></span></div>';
+                popup_option   = '<div class="modal fade" id="option_'+id+'" role="dialog" style="top:30%"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-body"> <p id="edit_'+id+'"><span class="glyphicon glyphicon-pencil"></span> Chỉnh sửa bài viết.</p> <p id="del_'+id+'"><span class="glyphicon glyphicon-remove"></span> Xóa bài viết.</p> <span data-dismiss="modal" style="float:right">Đóng</span><div style="clear:both"></div> </div> </div> </div></div>';
+              }
+              var preview = "";
+			    var link = findUrls(noidung);
+			    if(link!="")
+			    {
+
+			    	$('#load').show();
+					$.post(baseurl+"fetch.php?url="+link[0], {
+					}, function(response){
+						$('#loaders'+id).html($('<a href="'+link[0]+'">'+response+'</a>').fadeIn('slow'));
+						$('#load').hide();
+					});
+					preview = '<div id="loaders'+id+'"><div align="center" id="load" style="display:none"><img src="load.gif" /></div></div>';
+
+			    }
+              $('#article').html('<div style="width:100%;background:#fff;padding:10px">    <div class="p_status_avatar"><div class="thunho" style="border-radius:50%;border:1px solid #b2b2b2"><img src="'+urlAvatar+avatar+'"  /> </div></div> <div class="p_status_post" style="line-height:15px"> <span style="font-family:vietbook_font_bold;font-size:13px">'+hoten+'</span> <span style="font-size:12px">đã '+stt+'</span><br/> <span style="color:rgb(173, 173, 173);font-size:10px">'+CachDay(Time)+'</span> </div>'+option+' <div style="clear:both"> </div><div style="margin:10px"><span style="font-size:13px;">'+noidung+'</span></div> '+preview+' <div id="p_noidung'+id+'" style="margin-top:5px;margin-bottom:10px"><!--here--></div><div style="clear:both"></div><hr style="margin:0px" /> </center> </div><div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green'+id+'" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow'+id+'" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userlike_'+id+'"></div> <div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/comment_nf.png" class="img-responsive" /></div> <div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment_'+id+'"></div></div> <hr style="clear:both" /> <!-- Comment --> <div class="comment_p"> <!-- Area từng comment --> <div id="binhluan'+id+'" style="margin-left:10px;margin-top:-5px"> </div> <!-- End Area từng comment --> <!-- Area Comment --> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td> <div align="left"> <form method="post" name="form" action=""> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td align="left"> </td> </tr> <tr> <td style="padding:4px; padding-left:10px;" class="comment_box"> <input type="hidden" name="idbv" id="idbv'+id+'" value="'+id+'" /> <div contenteditable="true" cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content'+id+'"   style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px"></div> <input type="image" id="v'+id+'" border="0"  name="submit" src="img/check.png" class="comment_button'+id+'" style="width:8%;float:right;margin-top:15px" /> </td> </tr> </table> </form> </div> <div style="height:7px"></div> <div id="flash" align="left"></div> <div id="display" align="left"></div> </td> </tr> </table> <!-- End Area Comment--> </div>'+popup_option);
+              //Cắt hình
+                   if(count == 2){
+                    $('#p_noidung'+id).ready(function(){
+                      $(this).html(GirdImage2(data_img, 'p_noidung'+id));
+                    });
+                   } else if(count == 3){
+                      var first_img = new Image();
+                      first_img.src= data_img[0];
+                      first_img.onload = function(){
+                        if(first_img.width > first_img.height){
+                          $('#p_noidung'+id).ready(function(){
+                            $(this).html(GirdImage3_2(data_img, 'p_noidung'+id));
+                          });
+                        } else if(first_img.height > first_img.width) {
+                          $('#p_noidung'+id).ready(function(){
+                            $(this).html(GirdImage3(data_img, 'p_noidung'+id));
+                          });
+                        }
+                      };
+                   } else if(count == 4){
+                    
+                      $('#p_noidung'+id).ready(function(){
+                        $(this).html(GirdImage4(data_img, 'p_noidung'+id));
+                      });
+                   } else if(count == 1){
+                    $('#p_noidung'+id).ready(function(){
+                      $(this).html(GirdImage1(data_img, 'p_noidung'+id));
+                    });
+                   } else if(count > 4) {
+                    $('#p_noidung'+id).ready(function(){
+                      $(this).html(GirdImageMore(data_img, 'p_noidung'+id));
+                    });
+                   }
+              $('#p_green'+id).hide();
+              $('#p_yellow'+id).hide();
+              var control = "userlike_";
+              showlike(control,id);
+              showcomment("usercomment_",id);
+              checklike ("p_green","p_yellow",user,id);
+              LikeProcess(id,"p_green","p_yellow",user,iduser,"","");
+              DisLikeProcess(id,"p_green","p_yellow",user,"","");
+              CommentProcess(id,user,iduser);
+              ShowComment(id,urlIMG);
+              //Sửa bài viết
+              $("#edit_"+id).click(function() {
+                localStorage.idbv = id;
+                window.location.href="editbaiviet.html";
+                $('#option_'+id).modal('hide');
+              });
+              //Xóa bài viết
+              $("#del_"+id).click(function() {
+                var con = confirm("Bạn có chắc muốn xóa bài viết này?");
+                if(con)
+                {
+                  var base_url = baseurl+'delete_baiviet.php';
+                  var dataString="idbaiviet="+id+"&del_bv=";
+                  $.ajax({
+                    type: "POST",
+                    url: base_url,
+                    data: dataString,
+                    crossDomain: true,
+                    cache: false,
+                    success:function(data)
+                    {
+                          if(data=="yes")
+                          {
+                            $('#option_'+id).modal('hide');
+                            window.location.href = "profile.html";
+                          }
+                          else
+                          {
+                            $('#option_'+id).modal('hide');
+                            window.location.href = "profile.html";
+                          }
+                          //$("#test").html(data);
+                    }
+                  });
+
+                }
+              });
+            });
+          });
+        });
+    function ShowComment(id,urlIMG)
+    {
+      var url=root+"show_comment.php?idbv="+id;
+      var urlAvatar = urlIMG+"avatar/";
+        $.getJSON(url,function(comment){
+          console.log(comment);
+          $.each(comment, function(j, row){
+            var idcomment=row.id;
+            var idbv=row.idbaiviet;
+            var username=row.username;
+            var hoten=row.hoten;
+            var hinhanh=row.avatar;
+            var noidung_comment=row.noidung;
+            var Time_comment=row.Time;
+            var can_edit = '';
+            if(localStorage.iduser.toLowerCase()==username.toLowerCase())
+            {
+              can_edit = '<div style="width:10%;float:right;padding-left:10px"><span class="glyphicon glyphicon-pencil" id="edit_comment_'+idcomment+'"></span></div>';
+            }
+            var modal_popup = '<div id="pop_comment_'+idcomment+'" class="modal fade" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Thao tác</h4> </div> <div class="modal-body"> <p id="sua_comment_'+idcomment+'"><span class="glyphicon glyphicon-pencil"></span> Sửa bình luận.</p> <p id="xoa_comment_'+idcomment+'"><span class="glyphicon glyphicon-remove"></span> Xóa bình luận.</p> <p id="input_edit_'+idcomment+'"> <textarea id="txtNoidung_'+idcomment+'" style="width:90%;float:left;border:none" placeholder="Nhập nội dung ..."></textarea> <span id="btnSendEdit_'+idcomment+'" class="glyphicon glyphicon-ok" style="width:10%;float:right;font-size: 20px;text-align:right;padding-top:25px"></span> </p> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button> </div> </div> </div></div>';
+            $("#binhluan"+id).append('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:75%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px" id="idcomment'+idcomment+'">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div>'+can_edit+'<div style="clear:both"></div></div>'+modal_popup);
+            $("#edit_comment_"+idcomment).click(function(event) {
+              localStorage.idcomment = idcomment;
+              localStorage.noidung_comment = noidung_comment;
+              $("#sua_comment_"+idcomment).show();
+              $("#xoa_comment_"+idcomment).show();
+              //$("#txtNoidung").html(localStorage.noidung_comment);
+
+              $("#input_edit_"+idcomment).hide();
+              $("#pop_comment_"+idcomment).modal('show');
+            });
+            $("#sua_comment_"+idcomment).click(function(event) {
+              $("#input_edit_"+idcomment).show();
+              $("#sua_comment_"+idcomment).hide();
+              $("#xoa_comment_"+idcomment).hide();
+              $("#txtNoidung_"+idcomment).focus();
+              $("#txtNoidung_"+idcomment).html(localStorage.noidung_comment);
+            });
+            $("#xoa_comment_"+idcomment).click(function(event) {
+              xoa_comment(id,localStorage.idcomment,urlIMG);
+            });
+            $("#btnSendEdit_"+idcomment).click(function(event) {
+              var noidung = $("#txtNoidung_"+idcomment).val();
+              sua_comment(id,localStorage.idcomment,noidung,urlIMG);
+            });
+            localStorage.username_noted = "";
+            $("#idcomment"+idcomment).click(function() {
+              if(localStorage.iduser.toLowerCase()!=username.toLowerCase())
+              {
+                $("#content"+id).text('@'+hoten);
+                localStorage.username_noted = username;
+              }
+              //
+              //$("#content"+id).focus();
+            });
+            $("#content"+id).keypress(function(e) {
+
+                if (e.which == 64) {
+                    console.log("It working");
+                }
+            });
+            // tag();
+            // function tag()
+            // {
+            //   $("#content"+id).keypress(function(event) {
+            //     var tmp_noidung = $("#content"+id).val();
+            //     if(tmp_noidung.indexOf('@') !== -1)
+            //     {
+            //       console.log("FUCK");
+            //       if(tmp_noidung.indexOf(' ') !== -1)
+            //       {
+            //         tag();
+            //       }
+            //     }
+            //   });
+            // }
+          });
+        });
+    }
+
+    function CommentProcess(id,user,iduser)
+    {
+      //Xử lý insert comment
+      $(function() {
+          $(".comment_button"+id).click(function() {
+              $("#binhluan"+id).html("");
+              var element = $(this);
+              //var noidung = $("#content"+id).val().replace(/\n\r?/g, '<br />');
+              var noidung = $("#content"+id).html().replace(/\n\r?/g, '<br />');
+              var idbv = $("#idbv"+id).val();
+              var username = user;
+              var dataString = 'content=' + noidung + '&idbv=' + idbv + '&username=' + username.toLowerCase() + "&user_noted=" + iduser.toLowerCase() + '&postcm=';
+              if (noidung == '') {
+                  alert("Bạn chưa nhập bình luận");
+              } else {
+                  $("#flash"+id).show();
+                  $("#flash"+id).fadeIn(400).html('<img src="img/loading.gif" align="absmiddle" height="10" width="10" >&nbsp;<span class="loading">Loading Comment...</span>');
+                  $.ajax({
+                      type: "POST",
+                      url: baseurl+"insert_comment.php",
+                      data: dataString,
+                      cache: false,
+                      success: function(html) {
+                          //$("#display").append(html);
+                          $("#content"+id).val('');
+                          //load_comment_again();
+                          //console.log(noidung);
+                          if(localStorage.username_noted!="" && localStorage.username_noted.toLowerCase()!=username.toLowerCase())
+                          {
+                            save_note(username.toLowerCase(),localStorage.username_noted.toLowerCase(),id);
+                          }
+                          window.location.href="articleonly.html";
+                          //$("#test").html(html);
+                      }
+                  });
+              }
+              return false;
+          });
+      });
+    }
+
+</script>
+<!-- Load data by user -->
+<script type="text/javascript">
+  $(document).ready(function()
+  {
+    $('html,body').animate({ scrollTop: 9999999 }, 'slow');
+  var IdUser=localStorage.username;
+  var idbv = localStorage.idbv;
+  var root = baseurl+"";
+  var url=root+"showdata_byuser.php?id="+IdUser+"&ex="+idbv;
+  var urlIMG = root+"data/img/";
+  var urlAvatar = root+"data/img/avatar/";
+  $.getJSON(url,function(result){
+    console.log(result);
+    $.each(result, function(i, field){
+    var user = localStorage.iduser;
+    var id=field.id;
+    var iduser=field.iduser;
+    var img=field.img;
+    var noidung=field.noidung;
+    var hoten=field.hoten;
+    var avatar=field.avatar;
+    var Time=field.Time;
+    var NewImg = img.split('||');
+    var num_new_data = NewImg.length-1;
+    var Show_Img = "";
+    var data_img = [];
+    var count = 0;
+
+    for(var i=0;i<num_new_data;i++)
+    {
+      Show_Img += '<div class="col-xs-4 col-sm-5cols"> <div class="thunho"> <img src="'+urlIMG+NewImg[i]+'" /></div></div>';
+      data_img.push(urlIMG+NewImg[i]);
+      count ++;
+    }
+    var option ="";
+    var popup_option = "";
+    if(localStorage.iduser==iduser)
+    {
+      option  = '<div style="width:2%;float:left"><span class="glyphicon glyphicon-chevron-down" data-toggle="modal" data-target="#option_'+id+'" "></span></div>';
+      popup_option   = '<div class="modal fade" id="option_'+id+'" role="dialog" style="top:30%"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-body"> <p id="edit_'+id+'"><span class="glyphicon glyphicon-pencil"></span> Chỉnh sửa bài viết.</p> <p id="del_'+id+'"><span class="glyphicon glyphicon-remove"></span> Xóa bài viết.</p> <span data-dismiss="modal" style="float:right">Đóng</span><div style="clear:both"></div> </div> </div> </div></div>';
+    }
+    //$("#r_timelife").append('<div class="p_timelife"> <div class="p_status_avatar"> <img src="'+urlAvatar+avatar+'" class="img-responsive" /> </div> <div class="p_status_post" style="line-height:15px"> <span style="font-family:vietbook_font_bold;font-size:13px">'+hoten+'</span> <span style="font-size:12px">đã đăng '+count+' ảnh</span><br/> <span style="color:rgb(173, 173, 173);font-size:10px">'+CachDay(Time)+'</span> </div><div style="clear:both"> </div> <div class="p_noidung" style="margin-top:5px">'+noidung+'<br/> <center> <div class="col-xs-12" style="margin-bottom:15px;margin-top:10px">'+Show_Img+' </div><div style="clear:both"></div><hr style="margin:0px" /> </center> </div><div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green2'+id+'" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow2'+id+'" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userliked_'+id+'"></div>  <div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/comment_nf.png" class="img-responsive" id="click_comment_'+id+'"/> </div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment_'+id+'"></div> <div style="clear:both"></div></div><center><img src="img/loader.gif" id="loader'+id+'" /></center><div class="r_comment" id="r_comment_'+id+'"> <hr style="clear:both;margin:0px" /> <div class="comment_p"> <!-- Area từng comment --> <div id="binhluan'+id+'" style="margin-left:10px;margin-top:-5px"> </div> <!-- End Area từng comment --> <!-- Area Comment --> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td> <div align="left"> <form method="post" name="form" action=""> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td align="left"> </td> </tr> <tr> <td style="padding:4px; padding-left:10px;" class="comment_box"> <input type="hidden" name="idbv" id="idbv'+id+'" value="'+id+'" /> <div contenteditable="true" cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content'+id+'" style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px"></div> <input type="image" id="v'+id+'" border="0" name="submit" src="img/planeden.png" class="comment_button'+id+'" style="width:8%;float:right;margin-top:15px" /> </td> </tr> </table> </form> </div> <div style="height:7px"> </div> <div id="flash" align="left"> </div> <div id="display" align="left"> </div> </td> </tr> </table> <!-- End Area Comment--> </div></div><div style="background:rgb(219, 219, 219);height:10px"></div>');
+    // var control = "userliked_";
+    // showlike(control,id);
+    // showcomment("usercomment_",id);
+    $('#loader'+id).hide();
+    $('#r_comment_'+id).hide();
+
+    //Sửa bài viết
+    $("#edit_"+id).click(function() {
+      localStorage.idbv = id;
+      window.location.href="editbaiviet.html";
+      $('#option_'+id).modal('hide');
+    });
+    //Xóa bài viết
+    $("#del_"+id).click(function() {
+      var con = confirm("Bạn có chắc muốn xóa bài viết này?");
+      if(con)
+      {
+        var base_url = baseurl+'delete_baiviet.php';
+        var dataString="idbaiviet="+id+"&del_bv=";
+        $.ajax({
+          type: "POST",
+          url: base_url,
+          data: dataString,
+          crossDomain: true,
+          cache: false,
+          success:function(data)
+          {
+                if(data=="yes")
+                {
+                  $('#option_'+id).modal('hide');
+                  window.location.href = "profile.html";
+                }
+                else
+                {
+                  $('#option_'+id).modal('hide');
+                  window.location.href = "profile.html";
+                }
+                //$("#test").html(data);
+          }
+        });
+
+      }
+    });
+    checklike ("p_green2","p_yellow2",user,id);
+    checklike ("p_green","p_yellow",user,id);
+    //Like va dislike ngoài
+    LikeProcess(id,"p_green2","p_yellow2",user,iduser,"p_green","p_yellow");
+    DisLikeProcess(id,"p_green2","p_yellow2",user,"p_green","p_yellow")
+    //Like và dislike trong popup
+    LikeProcess(id,"p_green","p_yellow",user,iduser,"p_green2","p_yellow2");
+    DisLikeProcess(id,"p_green","p_yellow",user,"p_green2","p_yellow2")
+    //Load comment từng row
+    $("#click_comment_"+id).click(function() {
+      $('#loader'+id).show();
+      $("#binhluan"+id).html("");
+      var data_comment = "";
+      $('#r_comment_'+id).show();
+      var url=root+"show_comment.php?idbv="+id;
+      var urlAvatar = urlIMG+"avatar/";
+        $.getJSON(url,function(comment){
+          console.log(comment);
+          $.each(comment, function(j, row){
+            var idcomment=row.id;
+            var idbv=row.idbaiviet;
+            var username=row.username;
+            var hoten=row.hoten;
+            var hinhanh=row.avatar;
+            var noidung_comment=row.noidung;
+            var Time_comment=row.Time;
+            //data_comment = '<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:12px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>';
+
+            $("#binhluan"+id).append('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> <span style="color:rgb(90, 81, 204);font-size:11px" id="reply_comment_'+idcomment+'">Trả lời</span></div> <div style="clear:both"></div></div>');
+          });
+        });
+        $('#loader'+id).hide();
+        //$("#binhluan"+id).html(data_comment);
+        //alert(data_comment);
+    });
+    //End load comment từng row
+    //Xử lý insert comment
+    $(function() {
+        $(".comment_button"+id).click(function() {
+            var element = $(this);
+            var noidung = $("#content"+id).val();
+            noidung = noidung.replace(/\n\r?/g, '<br />');
+            alert(noidung);
+            var idbv = $("#idbv"+id).val();
+            var username = user;
+            var dataString = 'content=' + noidung + '&idbv=' + idbv + '&username=' + username + '&postcm=';
+            if (noidung == '') {
+                alert("Bạn chưa nhập bình luận");
+            } else {
+                $("#flash"+id).show();
+                $("#flash"+id).fadeIn(400).html('<img src="img/loading.gif" align="absmiddle" height="10" width="10" >&nbsp;<span class="loading">Loading Comment...</span>');
+                $.ajax({
+                    type: "POST",
+                    url: baseurl+"insert_comment.php",
+                    data: dataString,
+                    cache: false,
+                    success: function(html) {
+                        //$("#display").append(html);
+                        $("#content"+id).val('');
+                        $("#flash"+id).hide();
+                        $("#binhluan"+id).html(html);
+                        //$("#test").html(html);
+                    }
+                });
+            }
+            return false;
+        });
+    });
+
+    });
+  });
+  });
+</script>
+</head>
+
+<body style="background:#fff" >
+  <nav class="fixed-nav-bar-user" style="background:#fff;">
+    <div  style="width:10%;float:left;padding:3px">
+      <a href="post.html" id="post"><img src="img/icn_tp_Camera.png" class="img-responsive" /></a>
+    </div>
+    <div style="width:77%;float:left;padding:0px 0px 10px 0px">
+      <center><img src="img/vbook.png" class="img-responsive" style="max-height:30px" /></center>
+    </div>
+    <div style="width:10%;float:right;padding:3px">
+      <a href="timkiem.html" id="txtTim">
+        <img src="img/find.png" class="img-responsive"  />
+      </a>
+    </div>
+  </nav>
+
+  <nav class="fixed-nav-bar" style="background:#fff">
+    <div class="menu" >
+
+        <div class="menu_bootstrap">
+          <a href="profile.html" id="profiles"><img src="img/user.png" class="img-responsive" /></a>
+        </div>
+        <div class="menu_bootstrap">
+          <a href="home.html" id="home">
+            <img src="img/home.png" class="img-responsive"  />
+          </a>
+        </div>
+        <div class="menu_bootstrap" >
+          <a href="follow.html" id="user"><img src="img/icn_btBar_13.png" class="img-responsive"  /></a>
+        </div>
+        <!-- <div class="menu_bootstrap" style="width:12%;background-color:rgb(0, 0, 0);border-radius:50%">
+          <center><a href="post.html" id="user"><img src="img/add.png" class="img-responsive"  /></a></center>
+        </div> -->
+        <div class="menu_bootstrap">
+          <a href="chat.html">
+            <img src="img/chat.png" class="img-responsive" style="position: relative; " />
+
+          </a>
+          <div id="badge_message">
+
+          </div>
+        </div>
+        <div class="menu_bootstrap" id="chuong2">
+          <div style="position:relative" id="chuong">
+            <img src="img/chuong.png" class="img-responsive"  />
+            <div id="note">
+
+            </div>
+          </div>
+        </div>
+        <!-- <div class="menu_bootstrap">
+          <a href="timkiem.html" id="txtTim">
+            <img src="img/find.png" class="img-responsive"  />
+          </a>
+        </div> -->
+        <!-- <div class="menu_bootstrap2">
+          <div class="fake-input">
+            <input type="text" class="form-control" id="txtTim" style="height:auto;min-height:25px" />
+            <span class="glyphicon glyphicon-search tim" aria-hidden="true"></span>
+          </div>
+        </div> -->
+
+    </div>
+</nav>
+    <!-- Show sản phẩm -->
+    <div class="se-pre-con"></div>
+
+
+
+
+    <div style="background:rgb(219, 219, 219);height:15px;"></div>
+
+    <div id="article" style="margin-top:45px;margin-bottom:40px" >
+
+      <span id="test" style="color:#000"></span>
+    </div>
+
+
+
+
+
+    <script type="text/javascript">
+
+
+
+
+    localStorage.page = "articleonly.html";
+        //Show số lượng thông báo
+        var username = localStorage.iduser;
+        ShowNote(username, "note", "show_note.php");
+        //Hàm update note và chuyển đến trang chi tiết note
+        var page = "note.html";
+        var control = "chuong";
+        var action = "update_note.php";
+        //Idea: Kiểm tra theo post localStorage.sonote nếu > 0 mới update
+        GotoPage4("chat.html","badge_message");
+        GotoNote(page, username, control, action);
+        GotoPage2_focus("timkiem.html","txtTim");
+    </script>
+    <script src="cordova.js" type="text/javascript"></script>
+</body>
+
+</html>
