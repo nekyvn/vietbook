@@ -76,6 +76,7 @@ function load_avatar_ontop()
   var num_new_data = NewImg.length-1;
   var Show_Img = "";
   var count = 0;
+
   for(var i=0;i<num_new_data;i++)
   {
     Show_Img += '<div class="col-xs-4 col-sm-5cols"  id="s_img_click_'+id+i+'"> <div class="thunho"> <img id="img_'+id+i+'"  src="'+urlIMG+NewImg[i]+'" onClick="Test('+id+','+i+');"  /></div></div>';
@@ -109,7 +110,7 @@ function load_avatar_ontop()
 		// preview = '<div id="loaders'+id+'"><div align="center" id="load" style="display:none"><img src="load.gif" /></div></div>';
 
   //   }
-  $("#kieu2").append('<div class="p_timelife" style="margin-bottom:0px"> <div class="p_status_avatar"><div class="thunho" style="border-radius:50%;border:1px solid #b2b2b2"><img src="'+urlAvatar+avatar+'"  /> </div></div> <div class="p_status_post" style="line-height:15px"> <span style="font-family:vietbook_font_bold;font-size:13px" id="hoten_'+id+'">'+hoten+'</span> <span style="font-size:12px">đã '+stt+'</span><br/> <span style="color:rgb(173, 173, 173);font-size:10px">'+CachDay(Time)+'</span> </div>'+option+' <div style="clear:both"> </div><div style="margin:10px"><span style="font-size:13px;">'+noidung+'</span></div> <center><div class="p_noidung'+id+'" id="p_noidung'+id+'"  style="margin-top:5px;margin-bottom:10px"><!--here--></div></center>'+preview+'<div style="clear:both"></div><hr style="margin:0px" /> </center> </div><div style="width:7%;float:left;margin:0px 0px 10px 10px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green2'+id+'" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow2'+id+'" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userliked_'+id+'"></div>  <div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/comment_nf.png" class="img-responsive" id="click_comment_'+id+'"/> </div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment_'+id+'"></div> <div style="clear:both"></div></div><center><img src="img/loader.gif" id="loader'+id+'" /></center><div class="r_comment" id="r_comment_'+id+'"> <hr style="clear:both;margin:0px" /> <div class="comment_p"> <!-- Area từng comment --> <div id="binhluan'+id+'" style="margin-left:10px;margin-top:-5px"> </div> <!-- End Area từng comment --> <!-- Area Comment --> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td> <div align="left"> <form method="post" name="form" action=""> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td align="left"> </td> </tr> <tr> <td style="padding:4px; padding-left:10px;" class="comment_box"> <input type="hidden" name="idbv" id="idbv'+id+'" value="'+id+'" /> <textarea cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content'+id+'" style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px"></textarea> <input type="image" id="v'+id+'" border="0" name="submit" src="img/planeden.png" class="comment_button'+id+'" style="width:8%;float:right;margin-top:15px" /> </td> </tr> </table> </form> </div> <div style="height:7px"> </div> <div id="flash" align="left"> </div> <div id="display" align="left"> </div> </td> </tr> </table> <!-- End Area Comment--> </div></div><div style="background:rgb(219, 219, 219);height:10px;    margin: 0px -10px;"></div>'+popup_option);
+  $("#kieu2").append('<div class="p_timelife" style="margin-bottom:0px"> <div class="p_status_avatar"><div class="thunho" style="border-radius:50%;border:1px solid #b2b2b2"><img src="'+urlAvatar+avatar+'"  /> </div></div> <div class="p_status_post" style="line-height:15px"> <span style="font-family:vietbook_font_bold;font-size:13px" id="hoten_'+id+'">'+hoten+'</span> <span style="font-size:12px">đã '+stt+'</span><br/> <span style="color:rgb(173, 173, 173);font-size:10px">'+CachDay(Time)+'</span> </div>'+option+' <div style="clear:both"> </div><div style="margin:10px"><span style="font-size:13px;">'+noidung+'</span></div> <center><div class="p_noidung'+id+'" id="p_noidung'+id+'"  style="margin-top:5px;margin-bottom:10px"><!--here--></div></center>'+preview+'<div style="clear:both"></div><hr style="margin:0px" /> </center> </div><div style="width:7%;float:left;margin:0px 0px 10px 10px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green2'+id+'" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow2'+id+'" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userliked_'+id+'"></div>  <div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/comment_nf.png" class="img-responsive" id="click_comment_'+id+'"/> </div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment_'+id+'"></div> <div id="chat_'+id+'" style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px"><img class="img-responsive" src="img/chat.png"></div><div style="clear:both"></div></div><center><img src="img/loader.gif" id="loader'+id+'" /></center><div class="r_comment" id="r_comment_'+id+'"> <hr style="clear:both;margin:0px" /> <div class="comment_p"> <!-- Area từng comment --> <div id="binhluan'+id+'" style="margin-left:10px;margin-top:-5px"> </div> <!-- End Area từng comment --> <!-- Area Comment --> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td> <div align="left"> <form method="post" name="form" action=""> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td align="left"> </td> </tr> <tr> <td style="padding:4px; padding-left:10px;" class="comment_box"> <input type="hidden" name="idbv" id="idbv'+id+'" value="'+id+'" /> <textarea cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content'+id+'" style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px"></textarea> <input type="image" id="v'+id+'" border="0" name="submit" src="img/planeden.png" class="comment_button'+id+'" style="width:8%;float:right;margin-top:15px" /> </td> </tr> </table> </form> </div> <div style="height:7px"> </div> <div id="flash" align="left"> </div> <div id="display" align="left"> </div> </td> </tr> </table> <!-- End Area Comment--> </div></div><div style="background:rgb(219, 219, 219);height:10px;    margin: 0px -10px;"></div>'+popup_option);
 
     //Cắt hình
     $(document).ready(function(){
@@ -149,7 +150,10 @@ function load_avatar_ontop()
  $('#r_comment_'+id).hide();
  var control = "#img_"+id+(count-1);
  var imgs = $(control).attr('src');
-
+ $('#chat_'+id).click(function(){
+    localStorage.username = iduser;
+        window.location.href="chatting.html";
+ });
  checklike ("p_green2","p_yellow2",localStorage.iduser,id);
     //checklike ("p_green","p_yellow",user,id);
     //Like va dislike ngoài
@@ -435,8 +439,7 @@ $(function() {
  }
  $(window).scroll(function() {
   if($("#loading").css('display') == 'none') {
-    if($(this).scrollTop() + $(this).innerHeight() >= $("#kieu1")[0].scrollHeight) {
-
+    if($(this).scrollTop() + $(this).innerHeight() >= $('#kieu1')[0].scrollHeight) {
      loadResults(limitStart);
      limitStart+=15;
    }
