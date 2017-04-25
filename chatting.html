@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html style="background: url(img/chat_bg.jpg) no-repeat center center fixed;background-size: cover;">
+<html style="background: url(img/chat_bg.jpg) no-repeat center center fixed;background-size: cover;height: 100%;">
 <head>
     <meta charset="UTF-8">
     <meta name="format-detection" content="telephone=no" />
@@ -16,7 +16,7 @@
     <link rel="stylesheet" type="text/css" href="css/chat.css" />
     <link rel="stylesheet" href="css/fixed-navigation-bar.css">
     <link rel="stylesheet" href="css/base.css">
-
+    <script type="text/javascript" src="js/md5.min.js"></script>
     <title>Gian hàng online</title>
     <script type="text/javascript">
     $(window).on("error", function(evt) {
@@ -106,7 +106,7 @@
         var username = localStorage.username;
         var boxchat = document.getElementById("Box-Chat");
         var text = document.createElement("p");
-        var UrlAvatar = baseurl + "data/img/avatar/";
+        var UrlAvatar = baseurl + "data/img/avatar/" + localStorage.avatar;
         getphotochat(iduser,username,boxchat,text,UrlAvatar);
 
     }
