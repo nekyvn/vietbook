@@ -87,6 +87,7 @@ function load_avatar_ontop()
   if(count>0) stt="đăng "+count+" ảnh";
   else stt="cập nhật trạng thái";
 
+
   var option ="";
   var popup_option = "";
   if(localStorage.iduser.toLowerCase()==iduser.toLowerCase())
@@ -94,16 +95,143 @@ function load_avatar_ontop()
     option  = '<div style="width:2%;float:left"><span class="glyphicon glyphicon-chevron-down" data-toggle="modal" data-target="#option_'+id+'" "></span></div>';
     popup_option   = '<div class="modal fade" id="option_'+id+'" role="dialog" style="top:30%"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-body"> <p id="edit_'+id+'"><span class="glyphicon glyphicon-pencil"></span> Chỉnh sửa bài viết.</p> <p id="del_'+id+'"><span class="glyphicon glyphicon-remove"></span> Xóa bài viết.</p> <span data-dismiss="modal" style="float:right">Đóng</span><div style="clear:both"></div> </div> </div> </div></div>';
   }
-  
-    var div = $('#kieu2');
-    if(div.length){
-      var div_chat = '';
-      if(iduser.toLowerCase() != localStorage.iduser.toLowerCase()){
-        div_chat = '<div id="chat_'+id+'" style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px"><img class="img-responsive" src="img/chat.png"></div>';
-      } else div_chat = '';
-      $("#kieu2").append('<div class="p_timelife" style="margin-bottom:0px"> <div class="p_status_avatar"><div class="thunho" style="border-radius:50%;border:1px solid #b2b2b2"><img src="'+urlAvatar+avatar+'"  /> </div></div> <div class="p_status_post" style="line-height:15px"> <span style="font-family:vietbook_font_bold;font-size:13px" id="hoten_'+id+'">'+hoten+'</span> <span style="font-size:12px">đã '+stt+'</span><br/> <span style="color:rgb(173, 173, 173);font-size:10px">'+CachDay(Time)+'</span> </div>'+option+' <div style="clear:both"> </div><div style="margin:10px"><span style="font-size:13px;">'+noidung+'</span></div> <center><div class="p_noidung'+id+'" id="p_noidung'+id+'"  style="margin-top:5px;margin-bottom:10px"><!--here--></div></center>'+preview+'<div style="clear:both"></div><hr style="margin:0px" /> </center> </div><div style="width:7%;float:left;margin:0px 0px 10px 10px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green2'+id+'" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow2'+id+'" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userliked_'+id+'"></div>  <div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/comment_nf.png" class="img-responsive" id="click_comment_'+id+'"/> </div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment_'+id+'"></div>'+ div_chat + '<div style="clear:both"></div></div><center><img src="img/loader.gif" id="loader'+id+'" /></center><div class="r_comment" id="r_comment_'+id+'"> <hr style="clear:both;margin:0px" /> <div class="comment_p"> <!-- Area từng comment --> <div id="binhluan'+id+'" style="margin-left:10px;margin-top:-5px"> </div> <!-- End Area từng comment --> <!-- Area Comment --> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td> <div align="left"> <form method="post" name="form" action=""> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td align="left"> </td> </tr> <tr> <td style="padding:4px; padding-left:10px;" class="comment_box"> <input type="hidden" name="idbv" id="idbv'+id+'" value="'+id+'" /> <textarea cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content'+id+'" style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px"></textarea> <input type="image" id="v'+id+'" border="0" name="submit" src="img/planeden.png" class="comment_button'+id+'" style="width:8%;float:right;margin-top:15px" /> </td> </tr> </table> </form> </div> <div style="height:7px"> </div> <div id="flash" align="left"> </div> <div id="display" align="left"> </div> </td> </tr> </table> <!-- End Area Comment--> </div></div><div style="background:rgb(219, 219, 219);height:10px;    margin: 0px -10px;"></div>'+popup_option);
+
+
+
+
+
+
+
+  var popup_comment = '<div class="modal fade" role="dialog" id="r_comment_'+id+'"> <div class="modal-dialog"> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Bình luận</h4> </div> <div class="modal-body"> <div class="r_comment" id="r_comment_'+id+'"> <hr style="clear:both;margin:0px" /> <div class="comment_p"> <!-- Area từng comment --> <div id="binhluan'+id+'" style="margin-left:10px;margin-top:-5px"> </div> <!-- End Area từng comment --> <!-- Area Comment --> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td> <div align="left"> <form method="post" name="form" action=""> <table cellpadding="0" cellspacing="0" style="width:100%"> <tr> <td align="left"> </td> </tr> <tr> <td style="padding:4px; padding-left:10px;" class="comment_box"> <input type="hidden" name="idbv" id="idbv'+id+'" value="'+id+'" /> <textarea cols="30" rows="2" placeholder="Nhập bình luận ..." name="content" id="content'+id+'" style="width:90%;float:left;overflow: hidden;outline:none;border: 0 none #FFF;font-size:13px"></textarea> <input type="image" id="v'+id+'" border="0" name="submit" src="img/planeden.png" class="comment_button'+id+'" style="width:8%;float:right;margin-top:15px" /> </td> </tr> </table> </form> </div> <div style="height:7px"> </div> <div id="flash" align="left"> </div> <div id="display" align="left"> </div> </td> </tr> </table> <!-- End Area Comment--> </div> </div> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button> </div> </div> </div></div>';
+  $("#kieu2").append('<div class="p_timelife" style="margin-bottom:0px"> <div class="p_status_avatar"> <div class="thunho" style="border-radius:50%;border:1px solid #b2b2b2"><img src="'+urlAvatar+avatar+'" /> </div> </div> <div class="p_status_post" style="line-height:15px"> <span style="font-family:vietbook_font_bold;font-size:13px" id="hoten_'+id+'">'+hoten+'</span> <span style="font-size:12px">đã '+stt+'</span> <br/> <span style="color:rgb(173, 173, 173);font-size:10px">'+CachDay(Time)+'</span> </div>'+option+' <div style="clear:both"> </div> <div style="margin:10px"><span style="font-size:13px;">'+noidung+'</span></div> <center> <div class="p_noidung'+id+'" id="p_noidung'+id+'" style="margin-top:5px;margin-bottom:10px"> <!--here--> </div> </center>'+preview+' <div style="clear:both"></div> <hr style="margin:0px" /> </center></div><div style="width:7%;float:left;margin:0px 0px 10px 10px"><img src="img/love_nf_green.png" class="img-responsive" id="p_green2'+id+'" /><img src="img/love_nf_yellow.png" class="img-responsive" id="p_yellow2'+id+'" /></div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="userliked_'+id+'"></div><div style="width:7%;float:left;margin:0px 0px 10px 5px"><img src="img/comment_nf.png" class="img-responsive" id="click_comment_'+id+'" /> </div><div style="color:#4a81ba;width:7%;float:left;margin:3px 5px 0px 5px" id="usercomment_'+id+'"></div><div style="clear:both"></div><div style="background:rgb(219, 219, 219);height:10px; margin: 0px -10px;"></div>'+popup_option+popup_comment);
+  $("#click_comment_"+id).click(function() {
+      localStorage.idbv = id;
+      //Show dữ liệu
+      $('#loader'+id).show();
+      $("#binhluan"+id).html("");
+      var data_comment = "";
+      $('#r_comment_'+id).show();
+      var url=root+"show_comment.php?idbv="+id;
+      var urlAvatar = urlIMG+"avatar/";
+        $.getJSON(url,function(comment){
+          console.log(comment);
+          $.each(comment, function(j, row){
+            var idcomment=row.id;
+            var idbv=row.idbaiviet;
+            var username=row.username;
+            var hoten=row.hoten;
+            var hinhanh=row.avatar;
+            var noidung_comment=row.noidung;
+            var Time_comment=row.Time;
+            //data_comment = '<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:12px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>';
+            var can_edit = '';
+            if(localStorage.iduser.toLowerCase()==username.toLowerCase())
+            {
+              can_edit = '<div style="width:10%;float:right;padding-left:10px"><span class="glyphicon glyphicon-pencil" id="edit_comment_'+idcomment+'"></span></div>';
+            }
+            var modal_popup = '<div id="pop_comment_'+idcomment+'" class="modal fade" role="dialog"> <div class="modal-dialog"> <!-- Modal content--> <div class="modal-content"> <div class="modal-header"> <button type="button" class="close" data-dismiss="modal">&times;</button> <h4 class="modal-title">Thao tác</h4> </div> <div class="modal-body"> <p id="sua_comment_'+idcomment+'"><span class="glyphicon glyphicon-pencil"></span> Sửa bình luận.</p> <p id="xoa_comment_'+idcomment+'"><span class="glyphicon glyphicon-remove"></span> Xóa bình luận.</p> <p id="input_edit_'+idcomment+'"> <textarea id="txtNoidung_'+idcomment+'" style="width:90%;float:left;border:none" placeholder="Nhập nội dung ..."></textarea> <span id="btnSendEdit_'+idcomment+'" class="glyphicon glyphicon-ok" style="width:10%;float:right;font-size: 20px;text-align:right;padding-top:25px"></span> </p> </div> <div class="modal-footer"> <button type="button" class="btn btn-default" data-dismiss="modal">Đóng</button> </div> </div> </div></div>';
+            $("#binhluan"+id).append('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> '+can_edit+' </div><div style="clear:both"></div></div>'+modal_popup);
+            ///////////////////////////////////////////////// XU LY EDIT COMMENT //////////////////////////////////
+             //Reply Comment 
+            $('#reply_comment_'+idcomment).click(function(){
+              localStorage.idcomment = idcomment;
+              localStorage.idbv = idbv;
+              window.location.href="reply_comment.html";
+            });
+            $("#edit_comment_"+idcomment).click(function(event) {
+              localStorage.idcomment = idcomment;
+              localStorage.noidung_comment = noidung_comment;
+              $("#sua_comment_"+idcomment).show();
+              $("#xoa_comment_"+idcomment).show();
+              //$("#txtNoidung").html(localStorage.noidung_comment);
+
+              $("#input_edit_"+idcomment).hide();
+              $("#pop_comment_"+idcomment).modal('show');
+            });
+            $("#sua_comment_"+idcomment).click(function(event) {
+              $("#input_edit_"+idcomment).show();
+              $("#sua_comment_"+idcomment).hide();
+              $("#xoa_comment_"+idcomment).hide();
+              $("#txtNoidung_"+idcomment).focus();
+              $("#txtNoidung_"+idcomment).html(localStorage.noidung_comment);
+            });
+            $("#xoa_comment_"+idcomment).click(function(event) {
+              xoa_comment_popup(id,localStorage.idcomment,urlIMG);
+            });
+            $("#btnSendEdit_"+idcomment).click(function(event) {
+              var noidung = $("#txtNoidung_"+idcomment).val();
+              sua_comment_popup(id,localStorage.idcomment,noidung,urlIMG);
+            });
+            localStorage.username_noted = "";
+            $("#idcomment"+idcomment).click(function() {
+              if(localStorage.iduser.toLowerCase()!=username.toLowerCase())
+              {
+                $("#content"+id).text('@'+hoten);
+                localStorage.username_noted = username;
+              }
+              //
+              //$("#content"+id).focus();
+            });
+            /////////////////////////////////////////////////////// END XU LY EDIT COMMENT ////////////////////////////
+          });
+        });
+      $("#r_comment_"+id).modal("show");
+      //Comment
+      $(".comment_button"+id).click(function() {
+        var element = $(this);
+        var noidung = $("#content"+id).val();
+        var idbv = $("#idbv"+id).val();
+        var username = localStorage.iduser;
+        var dataString = 'content=' + noidung + '&idbv=' + idbv + '&username=' + username + '&postcm=';
+        if (noidung == '') {
+          alert("Bạn chưa nhập bình luận");
+        } else {
+          $("#flash"+id).show();
+          $("#flash"+id).fadeIn(400).html('<img src="img/loading.gif" align="absmiddle" height="10" width="10" >&nbsp;<span class="loading">Loading Comment...</span>');
+          $.ajax({
+            type: "POST",
+            url: baseurl+"insert_comment.php",
+            data: dataString,
+            cache: false,
+            success: function(html) {
+                  //$("#display").append(html);
+                  $("#content"+id).val('');
+                  $('#loader'+id).show();
+                  $("#binhluan"+id).html("");
+                  var data_comment = "";
+                  $('#r_comment_'+id).show();
+                  var url=root+"show_comment.php?idbv="+id;
+                  var urlAvatar = urlIMG+"avatar/";
+                    $.getJSON(url,function(comment){
+                      console.log(comment);
+                      $.each(comment, function(j, row){
+                        var idcomment=row.id;
+                        var idbv=row.idbaiviet;
+                        var username=row.username;
+                        var hoten=row.hoten;
+                        var hinhanh=row.avatar;
+                        var noidung_comment=row.noidung;
+                        var Time_comment=row.Time;
+                        //data_comment = '<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:12px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>';
+
+                        $("#binhluan"+id).append('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>');
+                      });
+                    });
+               }
+            });
+        }
+        return false;
+      });
+    });
+
+
+
+
+
+
     //Cắt hình
-    if(count == 2){
+    $(document).ready(function(){
+      if(count == 2){
       $('#p_noidung'+id).ready(function(){
         $(this).html(GirdImage2(data_img, 'p_noidung'+id));
       });
@@ -134,11 +262,7 @@ function load_avatar_ontop()
         $(this).html(GirdImageMore(data_img, 'p_noidung'+id));
       });
      } 
-    }
-    $('#chat_'+id).click(function(){
-        localStorage.username = iduser;
-        window.location.href="chatting.html";
-      });
+    });
  $('#loader'+id).hide();
  $('#r_comment_'+id).hide();
  var control = "#img_"+id+(count-1);
@@ -199,10 +323,7 @@ function load_avatar_ontop()
     });
     var control = "userliked_";
     showlike(control,id);
-    $("#click_comment_"+id).click(function() {
-      localStorage.idbv = id;
-      window.location.href = "articleonly.html";
-    });
+    
     showcomment("usercomment_",id);
   }
  //Edit
@@ -274,39 +395,12 @@ function load_avatar_ontop()
     $('#loader'+id).hide();
   });
 }
- //Insert comment
- function insert_comment()
- {
-  $(function() {
-    $(".comment_button"+id).click(function() {
-      var element = $(this);
-      var noidung = $("#content"+id).val();
-      var idbv = $("#idbv"+id).val();
-      var username = user;
-      var dataString = 'content=' + noidung + '&idbv=' + idbv + '&username=' + username + '&postcm=';
-      if (noidung == '') {
-        alert("Bạn chưa nhập bình luận");
-      } else {
-        $("#flash"+id).show();
-        $("#flash"+id).fadeIn(400).html('<img src="img/loading.gif" align="absmiddle" height="10" width="10" >&nbsp;<span class="loading">Loading Comment...</span>');
-        $.ajax({
-          type: "POST",
-          url: baseurl+"insert_comment.php",
-          data: dataString,
-          cache: false,
-          success: function(html) {
-                        //$("#display").append(html);
-                        $("#content"+id).val('');
-                        $("#flash"+id).hide();
-                        $("#binhluan"+id).html(html);
-                        //$("#test").html(html);
-                      }
-                    });
-      }
-      return false;
-    });
-  });
-}
+
+
+
+    
+
+
  //Hàm load chính
  function load_data_normal()
  {
@@ -423,33 +517,18 @@ var limitStart = 15;
 var count = 0;
 $(function() {
  loadResults(0);
- 
- $(document).ready(function(){
-  if(count<=15)
-   {
-     setTimeout(function(){ loadResults(limitStart);limitStart+=15; }, 1000);
-
-   }
- });
- $(window).scroll(function() {
-  if(localStorage.typeclick == 1){
-    if($("#loading").css('display') == 'none') {
-      if($(this).scrollTop() + $(this).innerHeight() >= $("#kieu1")[0].scrollHeight) {
-
-       loadResults(limitStart);
-       limitStart+=15;
-     }
-  }
- } else if(localStorage.typeclick == 2) {
-    if($("#loading").css('display') == 'none') {
-      if($(this).scrollTop() + $(this).innerHeight() >= $("#kieu2")[0].scrollHeight) {
-       loadResults(limitStart);
-       limitStart+=15;
-     }
-  }
-
+ if(count<=15)
+ {
+   setTimeout(function(){ loadResults(limitStart);limitStart+=15; }, 1000);
  }
+ $(window).scroll(function() {
+  if($("#loading").css('display') == 'none') {
+    if($(this).scrollTop() + $(this).innerHeight() >= $("#kieu1")[0].scrollHeight) {
 
+     loadResults(limitStart);
+     limitStart+=15;
+   }
+ }
 });
 
  function loadResults(limitStart) {
