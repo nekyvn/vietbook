@@ -123,9 +123,6 @@
 
     </div>
   </div>
-  <div id="kieu2" style="padding:10px;margin-top:100px;margin-bottom:40px">
-    <span id="test" style="color:#000"></span>
-  </div>
 
    <span id="loading"><img src="img/loader.gif" style="position:fixed;bottom: 10%;left: 50%;" /></span>
 <span class="scrollToTop" id="a_kieu1" style="z-index: 8888"></span>
@@ -142,7 +139,7 @@ $(document).ready(function(){
 //Load data bình thường
 
 //load_data_normal();
-  localStorage.typeclick = 1;
+  localStorage.typeclick = 1; 
   $('front').html();
   //Load avatar user trên top
   load_avatar_ontop();
@@ -155,32 +152,13 @@ $(document).ready(function(){
   $('.scrollToTop2').fadeIn();
   //$('#kieu2').hide();
   //Chuyển đổi nút giao diện
-  $('#a_kieu1').click(function(){
-    localStorage.typeclick = 1;
-    $('#kieu1').show();
-    $('#kieu2').css('visibility', 'hidden');
-    $('#kieu2').css('overflow', 'hidden');
-    $('#kieu2').css('height', '0px');
-      $('#kieu2').css("padding", "0");
-    $('#kieu2').css('margin', "0");
-    $('#a_kieu1').hide();
-    $('#a_kieu2').show();
-  });
+
   $('#a_kieu2').click(function(){
-    localStorage.typeclick = 2;
-    $('#kieu2').css('visibility', 'visible');
-    $('#kieu2').css('height', '');
-    $('#kieu2').css('padding', '10px');
-    $('#kieu2').css('margin-top', '100px');
-    $('#kieu2').css('margin-bottom', '40px');
-    $('#kieu1').hide();
-    $('#kieu2').css('height', '');
-    $('#a_kieu2').hide();
-    $('#a_kieu1').show();
-    
+
+    window.location.href="home2.html";
   });
   
-  scroll_hide_nav();
+  
 });
 
   //Show số lượng thông báo
@@ -223,16 +201,9 @@ run();
 
   GotoPage4("chat.html","badge_message");
   ChangeIcon("home","home");
+  scroll_hide_nav();
   });
   //Exit app
-$(document).ready(function(){
-    $('#kieu2').css('visibility', 'hidden');
-    $('#kieu2').css('height', '0px');
-    $('#kieu2').css('overflow', 'hidden');
-    $('#kieu2').css('display', 'visible');
-      $('#kieu2').css("padding", "0");
-    $('#kieu2').css('margin', "0");
-  });
 </script>
 
 </body>

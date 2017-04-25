@@ -65,13 +65,12 @@ var baseurl = "http://13.76.138.152/service/";
  return time;
  }
  // scroll_huy_17_5_2017
-function scroll_hide_nav(argument) {
+function scroll_hide_nav() {
     var iScrollPos = 0;
     $(window).scroll(function () {
         var iCurScrollPos = $(this).scrollTop();
         if (iCurScrollPos > iScrollPos) {
           $("#menunav").hide();
-          
       } else {
          $("#menunav").show();
      }

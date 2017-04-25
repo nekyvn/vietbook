@@ -543,6 +543,41 @@ function hienthi_comment(id,urlIMG)
     $('html,body').animate({ scrollTop: 9999999 }, 'slow');
 }
 var uploaded = 0;
+function uploadFile2(fileURL) {
+  document.addEventListener("deviceready", function() {
+    var win = function (r) {
+    console.log("Code = " + r.responseCode);
+    console.log("Response = " + r.response);
+    console.log("Sent = " + r.bytesSent);
+    //alert("Up Success");
+    uploaded ++;
+    }
+
+    var fail = function (error) {
+      alert("Up fail");
+      alert("An error has occurred: Code = " + error.code);
+      console.log("upload error source " + error.source);
+      console.log("upload error target " + error.target);
+    }
+
+    var options = new FileUploadOptions();
+    options.fileKey = "txtImage";
+
+    options.fileName = localStorage.newname;
+    options.mimeType = "image/jpeg";
+
+    var params = {};
+    params.value1 = "UploadIMG";
+    params.user1 = localStorage.iduser;
+    params.user2 = localStorage.username;
+    params.value2 = "param";
+
+    options.params = params;
+
+    var ft = new FileTransfer();
+    ft.upload(fileURL, encodeURI(baseurl+"upload_img_chat.php"), win, fail, options);
+  },false);
+}
 function uploadFile(fileURL) {
   document.addEventListener("deviceready", function() {
     var win = function (r) {
@@ -568,6 +603,8 @@ function uploadFile(fileURL) {
 
     var params = {};
     params.value1 = "UploadIMG";
+    params.user1 = localStorage.iduser;
+    params.user2 = localStorage.username;
     params.value2 = "param";
 
     options.params = params;
@@ -576,6 +613,7 @@ function uploadFile(fileURL) {
     ft.upload(fileURL, encodeURI(baseurl+"upload_4.php"), win, fail, options);
   },false);
 }
+
 
 function uploadAvatar(fileURL) {
   document.addEventListener("deviceready", function() {
@@ -660,8 +698,10 @@ function getphotochat(iduser,username,message,text,UrlAvatar)
     function(results) {
       for (var i = 0; i < results.length; i++) {
         localStorage.Img_Save += results[i]+"||";
-        text.innerHTML += '<li class="self"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"><img src="'+ results[i] +'" /><br/> </div> </li>';
-        
+        text.innerHTML += '<li class="self"> <div class="avatar"><img src="'+UrlAvatar+'" /></div> <div class="msg"><img src="'+ results[i] +'" style="width: 200px; height: auto;" /><br/> </div> </li>';
+        var newname = md5(new Date() + Math.random()) + "_" + results[i].substr(results[i].lastIndexOf('/') + 1);
+        localStorage.newname = newname;
+        uploadFile2(results[i]);
       }
     }, function (error) {
       console.log('Error: ' + error);
@@ -675,6 +715,7 @@ function getphotochat(iduser,username,message,text,UrlAvatar)
     );
   boxchat.appendChild(text);
 }
+
 
 function getphoto()
 {

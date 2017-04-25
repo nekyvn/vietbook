@@ -86,16 +86,19 @@
 
   <div style="background:rgb(219, 219, 219);height:15px;"></div>
   <div style="background:#fff;height:50px">
-    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px" data-toggle="modal" data-target="#click_info">
+    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px 5px" data-toggle="modal" data-target="#click_info">
       <img src="img/icn_btBar_info_black.png" style="width:34%"><br/>
     </div>
-    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px" id="click_follow">
-      <img src="img/userfs.png" style="width:34%"><span style="color:red" id="count_follow"></span><br/>
+    <div style="width:20%;float:left;text-align:center;padding:5px;margin:10px 5px" id="click_follow">
+      <img src="img/user.png" style="width:34%"><span style="color:red" id="count_follow"></span><br/>
       <span id="show_numberfollow"></span>
     </div>
-    <div style="width:25%;float:left;text-align:center;padding:5px;margin:10px" data-toggle="modal" data-target="#click_info">
+    <div style="width:20%;float:left;text-align:center;padding:5px;margin:10px 0px" data-toggle="modal" data-target="#click_info">
       <img src="img/icn_btBar_picture_black.png" style="width:34%"><br/>
     </div>
+    <div style="width:20%;float:left;text-align:center;padding:5px;margin:10px">
+            <span id="chat_btn"><img style="width:40%" src="img/chat.png"></span>
+        </div>
     <div style="clear:both"></div>
   </div>
   <div style="background:rgb(219, 219, 219);height:15px;"></div>
@@ -173,6 +176,9 @@ var action="update_note.php";
 GotoPage4("chat.html","badge_message");
 GotoNote(page,username,control,action);
 GotoPage2_focus("timkiem.html","txtTim");
+$('#chat_btn').click(function(){
+        window.location.href="chatting.html";
+      });
 </script>
 </body>
 </html>
