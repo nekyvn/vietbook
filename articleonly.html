@@ -34,7 +34,7 @@
     var IdUser=localStorage.iduser;
     var idbv = localStorage.idbv;
     function onBackKeyDown() {
-      window.location.href="article.html";
+      window.location.href=localStorage.page;
     }
 
         $(document).ready(function() {
@@ -508,7 +508,7 @@
 
 
 
-    localStorage.page = "articleonly.html";
+
         //Show số lượng thông báo
         var username = localStorage.iduser;
         ShowNote(username, "note", "show_note.php");

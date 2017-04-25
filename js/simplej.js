@@ -377,6 +377,59 @@ function xoa_comment(id,idcomment,urlIMG) {
   }
 
 }
+function xoa_comment_popup(id,idcomment,urlIMG) {
+  var txt;
+  var res;
+  var r = confirm("Bạn có chắc muốn xóa bình luận?");
+  if (r == true) {
+    var base_url = baseurl+'delete_comment.php';
+    var dataString="idcomment="+idcomment+"&delcoment=";
+    $.ajax({
+      type: "POST",
+      url: base_url,
+      data: dataString,
+      crossDomain: true,
+      cache: false,
+      success:function(data)
+      {
+        console.log(data);
+            if(data=="yes")
+            {
+              //$("#display").append(html);
+                  $("#content"+id).val('');
+                  $('#loader'+id).show();
+                  $("#binhluan"+id).html("");
+                  var data_comment = "";
+                  $('#r_comment_'+id).show();
+                  var url=root+"show_comment.php?idbv="+id;
+                  var urlAvatar = urlIMG+"avatar/";
+                    $.getJSON(url,function(comment){
+                      console.log(comment);
+                      $.each(comment, function(j, row){
+                        var idcomment=row.id;
+                        var idbv=row.idbaiviet;
+                        var username=row.username;
+                        var hoten=row.hoten;
+                        var hinhanh=row.avatar;
+                        var noidung_comment=row.noidung;
+                        var Time_comment=row.Time;
+                        //data_comment = '<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:12px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>';
+
+                        $("#binhluan"+id).append('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>');
+                      });
+                    });
+            }
+            else
+            {
+              console.log(data);
+              res = 0;
+            }
+            //$("#test").html(data);
+      }
+    });
+  }
+  return res;
+}
 //Xóa comment img
 function xoa_comment_img(id,urlIMG) {
   var txt;
@@ -450,6 +503,52 @@ function sua_comment(id,idcomment,noidung,urlIMG) {
           if(data==1)
           {
             window.location.href="articleonly.html";
+          }
+          else
+          {
+            console.log(data);
+          }
+          //$("#test").html(data);
+    }
+  });
+}
+function sua_comment_popup(id,idcomment,noidung,urlIMG) {
+  var base_url = baseurl+'update_comment.php';
+  var dataString="idcomment="+idcomment+"&noidung="+noidung+"&updatecoment=";
+  $.ajax({
+    type: "POST",
+    url: base_url,
+    data: dataString,
+    crossDomain: true,
+    cache: false,
+    success:function(data)
+    {
+      console.log(data);
+          if(data==1)
+          {
+            //$("#display").append(html);
+                  $("#content"+id).val('');
+                  $('#loader'+id).show();
+                  $("#binhluan"+id).html("");
+                  var data_comment = "";
+                  $('#r_comment_'+id).show();
+                  var url=root+"show_comment.php?idbv="+id;
+                  var urlAvatar = urlIMG+"avatar/";
+                    $.getJSON(url,function(comment){
+                      console.log(comment);
+                      $.each(comment, function(j, row){
+                        var idcomment=row.id;
+                        var idbv=row.idbaiviet;
+                        var username=row.username;
+                        var hoten=row.hoten;
+                        var hinhanh=row.avatar;
+                        var noidung_comment=row.noidung;
+                        var Time_comment=row.Time;
+                        //data_comment = '<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:12px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>';
+
+                        $("#binhluan"+id).append('<div class="col-md-12" style="text-align:left;background:#fff;padding: 10px;font-size:13px"> <div style="width:10%;float:left"> <img src="'+urlAvatar+hinhanh+'" class="img-responsive" /> </div> <div style="width:85%;float:left;padding-left:10px"> '+noidung_comment+' <br/> <span style="font-size:11px">Bởi</span> <span style="color:rgb(90, 81, 204);font-size:11px">'+hoten+'</span> <span style="color:rgb(168, 37, 37);font-size:11px">'+CachDay(Time_comment)+'</span> </div> <div style="clear:both"></div></div>');
+                      });
+                    });
           }
           else
           {
